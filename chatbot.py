@@ -235,7 +235,8 @@ class ChatBot:
     def _get_math_response(self, text):
         """Return an answer for simple arithmetic questions if present."""
         normalized = text.strip().lower().rstrip('?.!')
-        match = re.search(r'(?:what is|calculate|solve)\s+([-+*/%()\d\s.]+)$', normalized)
+        normalized = re.sub(r'^(what is)(?:\s+the\s+value\s+of)?\s+', 'what is ', normalized)
+        match = re.search(r'(?:what is|calculate|solve|evaluate)\s+([-+*/%()\d\s.]+)$', normalized)
         if not match:
             return None
 
