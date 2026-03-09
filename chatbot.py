@@ -528,6 +528,28 @@ class ChatBot:
 
         return None
 
+    def _should_use_context_for_query(self, user_input):
+        """Use uploaded file context only when the question clearly refers to that file."""
+        normalized = user_input.strip().lower()
+
+        file_reference_terms = (
+            'uploaded file', 'this file', 'the file', 'from the file', 'in the file',
+            'resume', 'my resume', 'cv', 'my cv', 'document', 'pdf', 'attachment',
+            'uploaded pdf', 'uploaded resume'
+        )
+        if any(term in normalized for term in file_reference_terms):
+            return True
+
+        context_question_terms = (
+            'technical question', 'technical questions', 'interview question', 'interview questions',
+            'project related', 'project questions', 'hr question', 'hr questions',
+            'skills', 'skill', 'technology', 'technologies', 'candidate name', 'summary', 'summarize'
+        )
+        if any(term in normalized for term in context_question_terms):
+            return True
+
+        return False
+
     def get_generative_response(self, user_input, context_text=None, context_name=None):
         """Uses Wikipedia's free API (no auth needed) to answer general knowledge questions."""
         local_knowledge_response = self._get_local_knowledge_response(user_input)
@@ -670,7 +692,7 @@ class ChatBot:
         if math_response:
             return math_response
 
-        if context_text:
+        if context_text and self._should_use_context_for_query(user_input):
             return self.get_generative_response(user_input, context_text=context_text, context_name=context_name)
 
         normalized_input = self._normalize_user_input(user_input)
