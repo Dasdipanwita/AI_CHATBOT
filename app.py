@@ -113,4 +113,9 @@ if __name__ == '__main__':
     # that don't run the script in the main interpreter thread (e.g. Streamlit).
     # This prevents `signal only works in main thread` errors coming from
     # Werkzeug's reloader which registers signal handlers.
-    app.run(debug=False, port=5000, use_reloader=False)
+    app.run(
+        host='0.0.0.0',
+        port=int(os.environ.get('PORT', 5000)),
+        debug=False,
+        use_reloader=False,
+    )
