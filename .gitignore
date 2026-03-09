@@ -1,0 +1,15 @@
+.venv/
+venv/
+__pycache__/
+.vscode/
+.zencoder/
+.zenflow/
+*.pyc
+*.pyo
+*.pyd
+*.log
+upload_test.pdf
+upload_limit_test.txt
+cv_test.txt
+cv_project_test.txt
+cv_exact_prompt_test.txt

@@ -1,0 +1,833 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day",
+        "What's up"
+      ],
+      "responses": [
+        "Hello! How can I help you today?",
+        "Hi there! What can I do for you?",
+        "Greetings! How can I assist you?",
+        "Hey, how can I help you?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye",
+        "Catch you later",
+        "I am leaving",
+        "Have a Good day"
+      ],
+      "responses": [
+        "Goodbye! Have a great day.",
+        "See you later! Take care.",
+        "Bye! Feel free to ask more questions anytime."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful",
+        "Awesome, thanks",
+        "Thanks for helping me"
+      ],
+      "responses": [
+        "You're welcome!",
+        "Happy to help!",
+        "Any time!",
+        "My pleasure"
+      ]
+    },
+    {
+      "tag": "about",
+      "patterns": [
+        "Who are you?",
+        "What are you?",
+        "Who made you?",
+        "What is your name?",
+        "Tell me about yourself"
+      ],
+      "responses": [
+        "I am BuddyAI, developed using Python and NLP! I'm here to answer your questions.",
+        "I'm BuddyAI, built to assist you.",
+        "You can call me BuddyAI. I'm a natural language processing project!"
+      ]
+    },
+    {
+      "tag": "capabilities",
+      "patterns": [
+        "What can you do?",
+        "How can you help me?",
+        "What are your features?",
+        "Tell me what you are capable of"
+      ],
+      "responses": [
+        "I can have basic conversations with you and answer questions based on my training data.",
+        "I use natural language processing (NLP) to understand your sentences and find the best matching response.",
+        "Currently, I can chat, answer questions about myself, and demonstrate basic NLP capabilities."
+      ]
+    },
+    {
+      "tag": "project_details",
+      "patterns": [
+        "What is this project about?",
+        "Tell me about this BuddyAI project",
+        "How does this work?",
+        "Explain the technology stack"
+      ],
+      "responses": [
+        "This project is BuddyAI, a web-based chatbot. It uses NLTK for text processing, scikit-learn for finding similarities (TF-IDF & Cosine Similarity), and Flask for the web backend.",
+        "I operate by matching your input against my knowledge base (`intents.json`) using natural language processing to pick the most appropriate response.",
+        "The technology stack is Python (Flask, NLTK, Scikit-learn, Numpy) on the backend and HTML/CSS/JS for the frontend interface."
+      ]
+    },
+    {
+      "tag": "joke",
+      "patterns": [
+        "Tell me a joke",
+        "Make me laugh",
+        "Do you know any jokes?",
+        "I need a laugh"
+      ],
+      "responses": [
+        "Why do programmers prefer dark mode? Because light attracts bugs!",
+        "Given the choice between a database and a GUI, I'd pick the database... the GUI is just too flashy for my taste.",
+        "What do you call a computer that sings? A Dell!"
+      ]
+    },
+    {
+      "tag": "python",
+      "patterns": [
+        "Python",
+        "python",
+        "What is Python?",
+        "Tell me about Python",
+        "Why use Python?",
+        "What is python language?",
+        "explain python",
+        "define python",
+        "about python"
+      ],
+      "responses": [
+        "Python is a high-level, general-purpose programming language. Its design philosophy emphasizes code readability.",
+        "Python is a popular programming language created by Guido van Rossum, and released in 1991. It is widely used for web development, data science, and AI.",
+        "Python is an interpreted, object-oriented programming language with dynamic semantics. It's awesome for AI projects!"
+      ]
+    },
+    {
+      "tag": "programming",
+      "patterns": [
+        "What is programming?",
+        "Define coding",
+        "How do computers work?"
+      ],
+      "responses": [
+        "Programming is the process of creating a set of instructions that tell a computer how to perform a task.",
+        "Coding is the process of using a programming language to get a computer to behave how you want it to."
+      ]
+    },
+    {
+      "tag": "java",
+      "patterns": [
+        "Java",
+        "java",
+        "What is Java?",
+        "Tell me about Java",
+        "explain java",
+        "define java",
+        "about java",
+        "Java programming language",
+        "What is Java language?"
+      ],
+      "responses": [
+        "Java is a high-level, object-oriented programming language developed by James Gosling at Sun Microsystems in 1995. It follows the principle 'Write Once, Run Anywhere' (WORA) using the Java Virtual Machine (JVM).",
+        "Java is widely used for Android app development, web back-end services, enterprise applications, and big data. Key features: platform-independent, strongly typed, multithreaded, and secure.",
+        "Java is one of the most popular programming languages. It supports OOP concepts: Encapsulation, Inheritance, Polymorphism, and Abstraction. Popular frameworks: Spring, Hibernate, Maven."
+      ]
+    },
+    {
+      "tag": "java_code",
+      "patterns": [
+        "java code",
+        "hello world java",
+        "java hello world",
+        "write java program",
+        "java example code",
+        "basic java program",
+        "java program example"
+      ],
+      "responses": [
+        "Here is a basic Java Hello World program:\n\n```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n```"
+      ]
+    },
+    {
+      "tag": "java_odd_even",
+      "patterns": [
+        "odd even java code",
+        "odd or even in java",
+        "java odd even program",
+        "check odd even java"
+      ],
+      "responses": [
+        "Here is a Java program to check Odd or Even:\n\n```java\nimport java.util.Scanner;\npublic class OddEven {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter a number: \");\n        int num = sc.nextInt();\n        if (num % 2 == 0)\n            System.out.println(num + \" is Even\");\n        else\n            System.out.println(num + \" is Odd\");\n    }\n}\n```"
+      ]
+    },
+    {
+      "tag": "c_language",
+      "patterns": [
+        "C language",
+        "c language",
+        "What is C?",
+        "What is C language?",
+        "explain C language",
+        "define C language",
+        "about C programming"
+      ],
+      "responses": [
+        "C is a general-purpose, procedural programming language developed by Dennis Ritchie at Bell Labs in 1972. It is the foundation of many modern languages like C++, Java, and Python.",
+        "C is widely used for system programming, operating systems (like Linux/Unix), embedded systems, and compilers. It gives direct memory control using pointers."
+      ]
+    },
+    {
+      "tag": "cpp_language",
+      "patterns": [
+        "C++",
+        "c++",
+        "What is C++?",
+        "explain C++",
+        "define C++",
+        "about C++",
+        "C plus plus",
+        "What is CPP?"
+      ],
+      "responses": [
+        "C++ is a general-purpose, object-oriented programming language developed by Bjarne Stroustrup in 1983 as an extension of C. It supports both procedural and OOP paradigms.",
+        "C++ is used in game development (Unreal Engine), system software, browsers, databases, and high-performance applications. Key features: classes, inheritance, polymorphism, templates, and STL."
+      ]
+    },
+    {
+      "tag": "javascript",
+      "patterns": [
+        "JavaScript",
+        "javascript",
+        "What is JavaScript?",
+        "explain JavaScript",
+        "define JavaScript",
+        "about JavaScript",
+        "JS",
+        "what is JS"
+      ],
+      "responses": [
+        "JavaScript is a lightweight, interpreted programming language primarily used for making web pages interactive. It runs in the browser and on servers (Node.js).",
+        "JavaScript is one of the core technologies of the web alongside HTML and CSS. It supports event-driven, functional, and object-oriented programming styles. Frameworks: React, Angular, Vue, Node.js."
+      ]
+    },
+    {
+      "tag": "html",
+      "patterns": [
+        "HTML",
+        "html",
+        "What is HTML?",
+        "explain HTML",
+        "define HTML",
+        "about HTML",
+        "what is html language"
+      ],
+      "responses": [
+        "HTML (HyperText Markup Language) is the standard language for creating web pages. It uses tags like <html>, <head>, <body>, <p>, <div> to structure web content.",
+        "HTML is the backbone of every web page. It defines the structure and content. HTML5 added support for audio, video, canvas, and semantic elements like <header>, <footer>, <article>."
+      ]
+    },
+    {
+      "tag": "css",
+      "patterns": [
+        "CSS",
+        "css",
+        "What is CSS?",
+        "explain CSS",
+        "define CSS",
+        "about CSS",
+        "what is css styling"
+      ],
+      "responses": [
+        "CSS (Cascading Style Sheets) is a stylesheet language used to describe the appearance and formatting of HTML documents. It controls layout, colors, fonts, and responsiveness.",
+        "CSS uses selectors and properties to style HTML elements. CSS3 added features like animations, flexbox, grid, and media queries for responsive design."
+      ]
+    },
+    {
+      "tag": "sql",
+      "patterns": [
+        "SQL",
+        "sql",
+        "What is SQL?",
+        "explain SQL",
+        "define SQL",
+        "about SQL",
+        "what is structured query language"
+      ],
+      "responses": [
+        "SQL (Structured Query Language) is used to manage and query relational databases. Common commands: SELECT, INSERT, UPDATE, DELETE, CREATE TABLE, JOIN.",
+        "SQL is the standard language for relational database systems like MySQL, PostgreSQL, Oracle, and SQL Server. It is used to store, retrieve, and manipulate data."
+      ]
+    },
+    {
+      "tag": "cloud_computing",
+      "patterns": [
+        "cloud computing",
+        "What is cloud computing?",
+        "explain cloud computing",
+        "define cloud computing",
+        "about cloud"
+      ],
+      "responses": [
+        "Cloud Computing is the delivery of computing services (servers, storage, databases, networking, software) over the internet. Providers: AWS, Azure, Google Cloud.",
+        "Cloud computing has 3 main service models: IaaS (Infrastructure), PaaS (Platform), SaaS (Software). It offers scalability, flexibility, and cost savings."
+      ]
+    },
+    {
+      "tag": "cybersecurity",
+      "patterns": [
+        "cybersecurity",
+        "What is cybersecurity?",
+        "explain cybersecurity",
+        "define cybersecurity",
+        "information security",
+        "what is cyber security"
+      ],
+      "responses": [
+        "Cybersecurity is the practice of protecting systems, networks, and programs from digital attacks. Key areas: network security, application security, data encryption, and ethical hacking.",
+        "Cybersecurity involves protecting computers and data from unauthorized access, theft, or damage. Common threats: malware, phishing, ransomware, DDoS attacks."
+      ]
+    },
+    {
+      "tag": "blockchain",
+      "patterns": [
+        "blockchain",
+        "What is blockchain?",
+        "explain blockchain",
+        "define blockchain",
+        "about blockchain"
+      ],
+      "responses": [
+        "Blockchain is a distributed, decentralized ledger technology that records transactions across multiple computers securely. It powers cryptocurrencies like Bitcoin and Ethereum.",
+        "A Blockchain is a chain of blocks where each block contains transaction data, a timestamp, and a cryptographic hash of the previous block. It is immutable and transparent."
+      ]
+    },
+    {
+      "tag": "internet_of_things",
+      "patterns": [
+        "IoT",
+        "iot",
+        "Internet of Things",
+        "What is IoT?",
+        "explain IoT",
+        "define IoT",
+        "what is internet of things"
+      ],
+      "responses": [
+        "IoT (Internet of Things) refers to the network of physical devices embedded with sensors, software, and connectivity to collect and exchange data over the internet. Examples: smart home devices, wearables, smart cars.",
+        "IoT connects everyday objects to the internet, enabling them to send and receive data. Applications: smart homes, healthcare monitoring, industrial automation, precision farming."
+      ]
+    },
+    {
+      "tag": "computer_vision",
+      "patterns": [
+        "what is computer vision",
+        "define computer vision",
+        "explain computer vision",
+        "applications of computer vision",
+        "application of computer vision",
+        "name one application of computer vision",
+        "uses of computer vision"
+      ],
+      "responses": [
+        "Computer vision is a field of AI that enables computers to interpret and understand images and videos. One common application is facial recognition.",
+        "An application of computer vision is self-driving cars, where cameras and AI models detect lanes, traffic signs, pedestrians, and other vehicles.",
+        "Computer vision is used in medical imaging, face detection, quality inspection in factories, OCR, and autonomous vehicles."
+      ]
+    },
+    {
+      "tag": "odd_even",
+      "patterns": [
+        "odd even python code",
+        "odd or even program",
+        "how to check odd even in python",
+        "python odd even",
+        "write odd even program",
+        "odd even number program",
+        "check odd or even"
+      ],
+      "responses": [
+        "Here is a Python program to check Odd or Even:\n\n```python\nnum = int(input('Enter a number: '))\nif num % 2 == 0:\n    print(num, 'is Even')\nelse:\n    print(num, 'is Odd')\n```"
+      ]
+    },
+    {
+      "tag": "factorial",
+      "patterns": [
+        "factorial python code",
+        "factorial program in python",
+        "write factorial program",
+        "how to find factorial in python",
+        "factorial of a number",
+        "python factorial"
+      ],
+      "responses": [
+        "Here is a Python program to find Factorial:\n\n```python\nnum = int(input('Enter a number: '))\nfactorial = 1\nif num < 0:\n    print('Factorial not defined for negative numbers')\nelif num == 0:\n    print('Factorial of 0 is 1')\nelse:\n    for i in range(1, num + 1):\n        factorial *= i\n    print('Factorial of', num, 'is', factorial)\n```"
+      ]
+    },
+    {
+      "tag": "fibonacci",
+      "patterns": [
+        "fibonacci python code",
+        "fibonacci series program",
+        "write fibonacci program",
+        "fibonacci sequence in python",
+        "python fibonacci series",
+        "fibonacci number"
+      ],
+      "responses": [
+        "Here is a Python program to print Fibonacci series:\n\n```python\nn = int(input('How many terms? '))\na, b = 0, 1\nprint('Fibonacci Series:')\nfor _ in range(n):\n    print(a, end=' ')\n    a, b = b, a + b\n```"
+      ]
+    },
+    {
+      "tag": "prime",
+      "patterns": [
+        "prime number python code",
+        "prime number program in python",
+        "how to check prime number",
+        "write prime number program",
+        "python prime number",
+        "is prime number",
+        "check prime"
+      ],
+      "responses": [
+        "Here is a Python program to check Prime Number:\n\n```python\nnum = int(input('Enter a number: '))\nif num > 1:\n    for i in range(2, int(num**0.5) + 1):\n        if num % i == 0:\n            print(num, 'is NOT a prime number')\n            break\n    else:\n        print(num, 'is a Prime number')\nelse:\n    print(num, 'is NOT a prime number')\n```"
+      ]
+    },
+    {
+      "tag": "armstrong",
+      "patterns": [
+        "armstrong number python code",
+        "armstrong number program",
+        "how to check armstrong number",
+        "write armstrong program",
+        "python armstrong number",
+        "check armstrong"
+      ],
+      "responses": [
+        "Here is a Python program to check Armstrong Number:\n\n```python\nnum = int(input('Enter a number: '))\norder = len(str(num))\nsum_val = sum(int(d) ** order for d in str(num))\nif sum_val == num:\n    print(num, 'is an Armstrong number')\nelse:\n    print(num, 'is NOT an Armstrong number')\n```"
+      ]
+    },
+    {
+      "tag": "palindrome",
+      "patterns": [
+        "palindrome python code",
+        "palindrome program in python",
+        "check palindrome string",
+        "how to check palindrome",
+        "write palindrome program",
+        "python palindrome",
+        "palindrome number"
+      ],
+      "responses": [
+        "Here is a Python program to check Palindrome:\n\n```python\ns = input('Enter a string or number: ')\nif str(s) == str(s)[::-1]:\n    print(s, 'is a Palindrome')\nelse:\n    print(s, 'is NOT a Palindrome')\n```"
+      ]
+    },
+    {
+      "tag": "reverse_string",
+      "patterns": [
+        "reverse string python code",
+        "reverse a string in python",
+        "how to reverse string",
+        "string reverse program",
+        "python reverse string",
+        "write reverse string"
+      ],
+      "responses": [
+        "Here is a Python program to Reverse a String:\n\n```python\ns = input('Enter a string: ')\nreversed_s = s[::-1]\nprint('Reversed string:', reversed_s)\n```"
+      ]
+    },
+    {
+      "tag": "bubble_sort",
+      "patterns": [
+        "bubble sort python code",
+        "bubble sort program in python",
+        "how to implement bubble sort",
+        "write bubble sort",
+        "python bubble sort",
+        "sorting program"
+      ],
+      "responses": [
+        "Here is a Python program for Bubble Sort:\n\n```python\narr = [64, 34, 25, 12, 22, 11, 90]\nn = len(arr)\nfor i in range(n):\n    for j in range(0, n-i-1):\n        if arr[j] > arr[j+1]:\n            arr[j], arr[j+1] = arr[j+1], arr[j]\nprint('Sorted array:', arr)\n```"
+      ]
+    },
+    {
+      "tag": "binary_search",
+      "patterns": [
+        "binary search python code",
+        "binary search program in python",
+        "how to implement binary search",
+        "write binary search",
+        "python binary search"
+      ],
+      "responses": [
+        "Here is a Python program for Binary Search:\n\n```python\ndef binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n\narr = [2, 3, 4, 10, 40]\ntarget = int(input('Enter number to search: '))\nresult = binary_search(arr, target)\nif result != -1:\n    print('Element found at index', result)\nelse:\n    print('Element not found')\n```"
+      ]
+    },
+    {
+      "tag": "sum_digits",
+      "patterns": [
+        "sum of digits python code",
+        "sum of digits program",
+        "how to find sum of digits",
+        "digit sum program",
+        "python sum of digits"
+      ],
+      "responses": [
+        "Here is a Python program to find Sum of Digits:\n\n```python\nnum = input('Enter a number: ')\ndigit_sum = sum(int(d) for d in num if d.isdigit())\nprint('Sum of digits:', digit_sum)\n```"
+      ]
+    },
+    {
+      "tag": "swap_variables",
+      "patterns": [
+        "swap two numbers python code",
+        "swap variables in python",
+        "how to swap variables",
+        "swap program",
+        "python swap numbers",
+        "swapping two numbers"
+      ],
+      "responses": [
+        "Here is a Python program to Swap Two Variables:\n\n```python\na = int(input('Enter first number: '))\nb = int(input('Enter second number: '))\nprint('Before swap: a =', a, ', b =', b)\na, b = b, a\nprint('After swap:  a =', a, ', b =', b)\n```"
+      ]
+    },
+    {
+      "tag": "calculator",
+      "patterns": [
+        "calculator python code",
+        "simple calculator program",
+        "how to make calculator in python",
+        "write calculator program",
+        "python calculator"
+      ],
+      "responses": [
+        "Here is a Python Simple Calculator:\n\n```python\ndef calculator():\n    a = float(input('Enter first number: '))\n    op = input('Enter operator (+, -, *, /): ')\n    b = float(input('Enter second number: '))\n    if op == '+':\n        print('Result:', a + b)\n    elif op == '-':\n        print('Result:', a - b)\n    elif op == '*':\n        print('Result:', a * b)\n    elif op == '/':\n        print('Result:', a / b if b != 0 else 'Error: Division by zero')\n    else:\n        print('Invalid operator')\n\ncalculator()\n```"
+      ]
+    },
+    {
+      "tag": "pattern_star",
+      "patterns": [
+        "star pattern python code",
+        "print star pattern",
+        "triangle pattern program",
+        "pyramid pattern in python",
+        "write pattern program"
+      ],
+      "responses": [
+        "Here is a Python program to print a Star Triangle Pattern:\n\n```python\nn = int(input('Enter number of rows: '))\nfor i in range(1, n + 1):\n    print('* ' * i)\n```"
+      ]
+    },
+    {
+      "tag": "count_vowels",
+      "patterns": [
+        "count vowels python code",
+        "vowel count program",
+        "how to count vowels in string",
+        "python count vowels",
+        "write vowel counting program"
+      ],
+      "responses": [
+        "Here is a Python program to Count Vowels in a String:\n\n```python\ns = input('Enter a string: ').lower()\nvowels = 'aeiou'\ncount = sum(1 for c in s if c in vowels)\nprint('Number of vowels:', count)\n```"
+      ]
+    },
+    {
+      "tag": "list_operations",
+      "patterns": [
+        "list operations python code",
+        "python list example",
+        "how to use list in python",
+        "list program in python",
+        "python array program"
+      ],
+      "responses": [
+        "Here are common Python List Operations:\n\n```python\n# Create a list\nmy_list = [10, 20, 30, 40, 50]\n\nprint('List:', my_list)\nprint('Length:', len(my_list))\nprint('Max:', max(my_list))\nprint('Min:', min(my_list))\nprint('Sum:', sum(my_list))\n\nmy_list.append(60)      # Add element\nmy_list.remove(10)      # Remove element\nmy_list.sort()          # Sort list\nprint('Updated list:', my_list)\n```"
+      ]
+    },
+    {
+      "tag": "recursion",
+      "patterns": [
+        "recursion python code",
+        "recursive function example",
+        "how to use recursion in python",
+        "python recursion example",
+        "write recursive program"
+      ],
+      "responses": [
+        "Here is a Python Recursion Example (Factorial):\n\n```python\ndef factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nnum = int(input('Enter a number: '))\nprint('Factorial of', num, '=', factorial(num))\n```"
+      ]
+    },
+    {
+      "tag": "string_operations",
+      "patterns": [
+        "string operations python code",
+        "string methods python",
+        "how to manipulate strings in python",
+        "python string example",
+        "string program"
+      ],
+      "responses": [
+        "Here are common Python String Operations:\n\n```python\ns = 'Hello, World!'\n\nprint('Original:', s)\nprint('Uppercase:', s.upper())\nprint('Lowercase:', s.lower())\nprint('Length:', len(s))\nprint('Replace:', s.replace('World', 'Python'))\nprint('Split:', s.split(','))\nprint('Reversed:', s[::-1])\nprint('Starts with Hello:', s.startswith('Hello'))\n```"
+      ]
+    },
+    {
+      "tag": "lcm_gcd",
+      "patterns": [
+        "lcm gcd python code",
+        "lcm program in python",
+        "gcd program in python",
+        "how to find lcm gcd",
+        "python lcm gcd"
+      ],
+      "responses": [
+        "Here is a Python program to find LCM and GCD:\n\n```python\nimport math\n\na = int(input('Enter first number: '))\nb = int(input('Enter second number: '))\n\ngcd = math.gcd(a, b)\nlcm = abs(a * b) // gcd\n\nprint('GCD:', gcd)\nprint('LCM:', lcm)\n```"
+      ]
+    },
+    {
+      "tag": "matrix",
+      "patterns": [
+        "matrix multiplication python code",
+        "matrix program in python",
+        "how to multiply matrices in python",
+        "python matrix multiplication",
+        "2d array program"
+      ],
+      "responses": [
+        "Here is a Python program for Matrix Multiplication:\n\n```python\nA = [[1, 2], [3, 4]]\nB = [[5, 6], [7, 8]]\n\nresult = [[0, 0], [0, 0]]\nfor i in range(len(A)):\n    for j in range(len(B[0])):\n        for k in range(len(B)):\n            result[i][j] += A[i][k] * B[k][j]\n\nprint('Matrix A:', A)\nprint('Matrix B:', B)\nprint('Result:', result)\n```"
+      ]
+    },
+    {
+      "tag": "exception_handling",
+      "patterns": [
+        "exception handling python code",
+        "try except python",
+        "how to handle exceptions in python",
+        "python error handling",
+        "write try except program"
+      ],
+      "responses": [
+        "Here is a Python Exception Handling example:\n\n```python\ntry:\n    num = int(input('Enter a number: '))\n    result = 100 / num\n    print('Result:', result)\nexcept ValueError:\n    print('Error: Please enter a valid integer!')\nexcept ZeroDivisionError:\n    print('Error: Cannot divide by zero!')\nfinally:\n    print('Execution complete.')\n```"
+      ]
+    },
+    {
+      "tag": "file_handling",
+      "patterns": [
+        "file handling python code",
+        "read write file python",
+        "how to read file in python",
+        "python file operations",
+        "write file program"
+      ],
+      "responses": [
+        "Here is Python File Handling:\n\n```python\n# Write to a file\nwith open('example.txt', 'w') as f:\n    f.write('Hello, Python!\\nThis is file handling.')\n\n# Read from a file\nwith open('example.txt', 'r') as f:\n    content = f.read()\n    print('File content:')\n    print(content)\n```"
+      ]
+    },
+    {
+      "tag": "class_object",
+      "patterns": [
+        "class object python code",
+        "python class example",
+        "how to create class in python",
+        "oops python code",
+        "object oriented python"
+      ],
+      "responses": [
+        "Here is a Python Class and Object Example:\n\n```python\nclass Student:\n    def __init__(self, name, age, grade):\n        self.name = name\n        self.age = age\n        self.grade = grade\n\n    def display(self):\n        print(f'Name: {self.name}, Age: {self.age}, Grade: {self.grade}')\n\ns1 = Student('Alice', 20, 'A')\ns2 = Student('Bob', 22, 'B')\n\ns1.display()\ns2.display()\n```"
+      ]
+    },
+    {
+      "tag": "what_is_dbms",
+      "patterns": [
+        "what is dbms",
+        "define dbms",
+        "what is database management system",
+        "explain dbms",
+        "dbms meaning"
+      ],
+      "responses": [
+        "DBMS (Database Management System) is software that manages databases. It allows users to create, read, update, and delete data efficiently. Examples: MySQL, Oracle, PostgreSQL, SQLite.",
+        "A Database Management System (DBMS) is a system software for creating and managing databases. It provides an interface to interact with the database and controls access, queries, and storage."
+      ]
+    },
+    {
+      "tag": "what_is_ai",
+      "patterns": [
+        "what is artificial intelligence",
+        "what is AI",
+        "define AI",
+        "explain artificial intelligence"
+      ],
+      "responses": [
+        "Artificial Intelligence (AI) is the simulation of human intelligence in machines. It includes learning, reasoning, and problem-solving. Examples: ChatGPT, self-driving cars, Alexa.",
+        "AI is the ability of a computer to perform tasks that normally require human intelligence, such as recognizing speech, making decisions, and translating languages."
+      ]
+    },
+    {
+      "tag": "what_is_ml",
+      "patterns": [
+        "what is machine learning",
+        "what is ML",
+        "define machine learning",
+        "explain machine learning"
+      ],
+      "responses": [
+        "Machine Learning (ML) is a subset of AI where machines learn from data to improve their performance without being explicitly programmed. Types: Supervised, Unsupervised, Reinforcement Learning.",
+        "ML is the process of training algorithms on data so they can make predictions or decisions automatically."
+      ]
+    },
+    {
+      "tag": "deep_learning",
+      "patterns": [
+        "what is deep learning",
+        "what is DL",
+        "define deep learning",
+        "explain deep learning",
+        "about deep learning",
+        "deep learning meaning"
+      ],
+      "responses": [
+        "Deep Learning (DL) is a subset of machine learning that uses multi-layer neural networks to learn patterns from large amounts of data. It is widely used in image recognition, speech processing, natural language processing, and recommendation systems.",
+        "Deep learning is an AI technique based on neural networks with many layers. It automatically learns complex features from data and powers systems like chatbots, computer vision, and voice assistants."
+      ]
+    },
+    {
+      "tag": "what_is_os",
+      "patterns": [
+        "what is operating system",
+        "what is OS",
+        "define operating system",
+        "explain operating system"
+      ],
+      "responses": [
+        "An Operating System (OS) is system software that manages computer hardware and provides services for programs. Examples: Windows, Linux, macOS, Android.",
+        "The OS acts as a bridge between users and computer hardware. It handles memory management, process scheduling, file systems, and I/O devices."
+      ]
+    },
+    {
+      "tag": "what_is_oops",
+      "patterns": [
+        "what is oops",
+        "what is object oriented programming",
+        "define oops",
+        "explain oops concepts",
+        "oops concepts"
+      ],
+      "responses": [
+        "OOP (Object-Oriented Programming) is a programming paradigm based on objects. The 4 pillars are:\n1. Encapsulation - wrapping data and methods\n2. Inheritance - child class inherits from parent\n3. Polymorphism - same method, different behavior\n4. Abstraction - hiding complex details",
+        "OOP organizes code into objects that have data (attributes) and behavior (methods). Languages: Python, Java, C++."
+      ]
+    },
+    {
+      "tag": "what_is_data_structure",
+      "patterns": [
+        "what is data structure",
+        "define data structure",
+        "explain data structures",
+        "types of data structures"
+      ],
+      "responses": [
+        "A Data Structure is a way of organizing and storing data in a computer for efficient access and modification. Types include: Arrays, Linked Lists, Stacks, Queues, Trees, Graphs, Hash Tables.",
+        "Data Structures are classified as Linear (Array, Stack, Queue, Linked List) and Non-Linear (Tree, Graph). Choosing the right data structure improves algorithm efficiency."
+      ]
+    },
+    {
+      "tag": "what_is_array",
+      "patterns": [
+        "what is array",
+        "define array",
+        "explain array",
+        "what is an array"
+      ],
+      "responses": [
+        "An array is a data structure that stores a collection of elements of the same type in contiguous memory locations. It allows fast index-based access to data.",
+        "Array is a linear data structure used to store multiple values under one name. Each element is accessed using its index position."
+      ]
+    },
+    {
+      "tag": "what_is_queue",
+      "patterns": [
+        "what is queue",
+        "define queue",
+        "explain queue",
+        "what is a queue"
+      ],
+      "responses": [
+        "A queue is a linear data structure that follows the FIFO principle: First In, First Out. Elements are inserted from the rear and removed from the front.",
+        "Queue is a data structure where the first element added is the first one removed. Common operations are enqueue and dequeue."
+      ]
+    },
+    {
+      "tag": "what_is_dsa",
+      "patterns": [
+        "what is dsa",
+        "define dsa",
+        "what is data structures and algorithms",
+        "explain dsa"
+      ],
+      "responses": [
+        "DSA stands for Data Structures and Algorithms. It is the study of organizing data efficiently and solving problems step by step using optimized logic.",
+        "Data Structures and Algorithms (DSA) is a core computer science topic focused on storing data efficiently and designing efficient problem-solving methods."
+      ]
+    },
+    {
+      "tag": "what_is_llm",
+      "patterns": [
+        "what is llm",
+        "define llm",
+        "what is large language model",
+        "explain llm"
+      ],
+      "responses": [
+        "LLM stands for Large Language Model. It is an AI model trained on large amounts of text data to understand and generate human-like language.",
+        "A Large Language Model (LLM) is a neural network trained to process and generate text. It is used in chatbots, translation, summarization, coding assistants, and search."
+      ]
+    },
+    {
+      "tag": "what_is_algorithm",
+      "patterns": [
+        "what is algorithm",
+        "define algorithm",
+        "explain algorithm",
+        "what is an algorithm"
+      ],
+      "responses": [
+        "An Algorithm is a step-by-step procedure to solve a problem. A good algorithm is correct, efficient, and unambiguous. Examples: sorting (Bubble Sort, Quick Sort), searching (Binary Search).",
+        "An algorithm is a finite set of instructions that, when followed, performs a specific task. It is analyzed based on Time Complexity (Big O) and Space Complexity."
+      ]
+    },
+    {
+      "tag": "what_is_network",
+      "patterns": [
+        "what is computer network",
+        "what is networking",
+        "define computer network",
+        "explain networking"
+      ],
+      "responses": [
+        "A Computer Network is a collection of computers and devices connected together to share resources and communicate. Types: LAN, WAN, MAN. Protocols: TCP/IP, HTTP, FTP.",
+        "Networking allows computers to exchange data. Key concepts include IP address, DNS, routers, switches, and protocols like HTTP, TCP/IP."
+      ]
+    }
+  ]
+}
