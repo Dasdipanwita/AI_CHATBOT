@@ -133,6 +133,21 @@ GENERIC_HR_QUESTIONS = [
     'What motivates you in your career?',
 ]
 
+LOCAL_KNOWLEDGE_BASE = {
+    'pandas': 'Pandas is a Python library used for data analysis and data manipulation. It provides data structures like Series and DataFrame for working with tabular data efficiently.',
+    'numpy': 'NumPy is a Python library for numerical computing. It provides fast array operations, mathematical functions, and tools for working with multidimensional data.',
+    'python': 'Python is a high-level, easy-to-read programming language used for web development, automation, data science, machine learning, and many other tasks.',
+    'flask': 'Flask is a lightweight Python web framework used to build web applications and APIs with simple routing, request handling, and template support.',
+    'machine learning': 'Machine learning is a branch of artificial intelligence where systems learn patterns from data and make predictions or decisions without being explicitly programmed for every case.',
+    'deep learning': 'Deep learning is a subset of machine learning that uses neural networks with multiple layers to learn complex patterns from data such as images, text, and audio.',
+    'large language model': 'A large language model, or LLM, is an AI model trained on large amounts of text data to understand and generate human-like language.',
+    'data structures and algorithms': 'Data structures and algorithms are fundamental computer science concepts used to organize data efficiently and solve problems step by step.',
+    'operating system': 'An operating system is system software that manages computer hardware, memory, files, and processes, and provides a platform for applications to run.',
+    'array': 'An array is a data structure that stores multiple elements in an ordered sequence, usually allowing fast access by index.',
+    'queue': 'A queue is a data structure that follows FIFO, first in first out, where the first element added is the first one removed.',
+    'computer vision': 'Computer vision is a field of artificial intelligence that enables computers to interpret and analyze images and videos.',
+}
+
 class ChatBot:
     def __init__(self, intents_file='intents.json'):
         self.intents_file = intents_file
@@ -476,8 +491,48 @@ class ChatBot:
 
         return normalized
 
+    def _get_local_knowledge_response(self, user_input):
+        """Return a deterministic answer for common technical concepts."""
+        normalized = self._normalize_user_input(user_input).strip().lower()
+
+        query_patterns = (
+            r'^(?:what is|what are|define|explain|tell me about)\s+',
+            r'^(?:name one application of|applications of)\s+',
+        )
+        topic = normalized
+        for pattern in query_patterns:
+            topic = re.sub(pattern, '', topic, flags=re.IGNORECASE).strip()
+
+        topic = topic.rstrip('?.! ')
+        topic = re.sub(r'\bin python\b', '', topic, flags=re.IGNORECASE).strip()
+
+        alias_map = {
+            'llm': 'large language model',
+            'dsa': 'data structures and algorithms',
+            'os': 'operating system',
+            'ml': 'machine learning',
+            'dl': 'deep learning',
+        }
+        topic = alias_map.get(topic, topic)
+
+        if topic in LOCAL_KNOWLEDGE_BASE:
+            return LOCAL_KNOWLEDGE_BASE[topic]
+
+        if 'pandas' in topic:
+            return LOCAL_KNOWLEDGE_BASE['pandas']
+        if 'numpy' in topic:
+            return LOCAL_KNOWLEDGE_BASE['numpy']
+        if 'computer vision' in topic:
+            return LOCAL_KNOWLEDGE_BASE['computer vision']
+
+        return None
+
     def get_generative_response(self, user_input, context_text=None, context_name=None):
         """Uses Wikipedia's free API (no auth needed) to answer general knowledge questions."""
+        local_knowledge_response = self._get_local_knowledge_response(user_input)
+        if local_knowledge_response:
+            return local_knowledge_response
+
         if context_text:
             local_response = self._get_contextual_file_response(user_input, context_text, context_name=context_name)
             if local_response:
