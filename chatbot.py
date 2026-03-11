@@ -605,7 +605,10 @@ class ChatBot:
                 return SAFE_MATH_OPERATORS[type(node.op)](_eval_node(node.operand))
             raise ValueError('Unsupported expression')
 
-        parsed = ast.parse(expression, mode='eval')
+        try:
+            parsed = ast.parse(expression, mode='eval')
+        except SyntaxError:
+            raise ValueError('Invalid math expression')
         return _eval_node(parsed.body)
 
     def _get_math_response(self, text):

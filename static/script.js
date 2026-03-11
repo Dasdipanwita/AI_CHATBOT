@@ -32,8 +32,12 @@ function addMessage(text, isUser = false) {
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
     
-    const textP = document.createElement('p');
-    textP.textContent = text;
+    const textP = document.createElement('div');
+    if (!isUser && typeof marked !== 'undefined') {
+        textP.innerHTML = marked.parse(text);
+    } else {
+        textP.textContent = text;
+    }
     
     const timeSpan = document.createElement('span');
     timeSpan.className = 'time';

@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from chatbot import ChatBot
 import nltk
 import os
 import io
+import secrets
 
 try:
     import pdfplumber
@@ -10,6 +11,7 @@ except Exception:
     pdfplumber = None
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', secrets.token_hex(16))
 
 # Download necessary NLTK corpora upon startup
 try:
@@ -25,10 +27,7 @@ bot = ChatBot('intents.json')
 
 SUPPORTED_UPLOAD_EXTENSIONS = {'.txt', '.md', '.json', '.csv', '.py', '.js', '.html', '.css', '.xml', '.yml', '.yaml', '.pdf'}
 MAX_UPLOAD_BYTES = 1_000_000
-uploaded_context = {
-    'filename': None,
-    'content': None,
-}
+CONTENT_CHAR_LIMIT = 15000
 
 
 def extract_upload_text(raw_bytes, extension):
@@ -63,11 +62,13 @@ def get_bot_response():
         return jsonify({'response': "Error: Empty message received"}), 400
         
     try:
-        if uploaded_context['content']:
+        context_content = session.get('content')
+        context_filename = session.get('filename')
+        if context_content:
             response = bot.get_response(
                 user_message,
-                context_text=uploaded_context['content'],
-                context_name=uploaded_context['filename'],
+                context_text=context_content,
+                context_name=context_filename,
             )
         else:
             response = bot.get_response(user_message)
@@ -101,9 +102,11 @@ def upload_file():
     if not content:
         return jsonify({'response': 'That file appears to be empty or unreadable.'}), 400
 
-    uploaded_context['filename'] = filename
-    uploaded_context['content'] = content[:15000]
-    return jsonify({'response': f'Uploaded {filename}. I can now answer questions about this file.'})
+    session['filename'] = filename
+    truncated = content[:CONTENT_CHAR_LIMIT]
+    session['content'] = truncated
+    note = ' Note: the file is long — I can only read the first portion of it.' if len(content) > CONTENT_CHAR_LIMIT else ''
+    return jsonify({'response': f'Uploaded {filename}. I can now answer questions about this file.{note}'})
 
 if __name__ == '__main__':
     # Creating templates and static folders if they don't exist
