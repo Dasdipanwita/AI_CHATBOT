@@ -271,6 +271,35 @@ LOCAL_KNOWLEDGE_BASE = {
     'graph traversal': 'Graph traversal visits all nodes in a graph. BFS (breadth-first search) uses a queue and finds shortest paths; DFS (depth-first search) uses a stack or recursion.',
     'bfs': 'BFS (Breadth-First Search) traverses a graph level by level using a queue. It finds the shortest path in unweighted graphs and runs in O(V + E) time.',
     'dfs': 'DFS (Depth-First Search) traverses a graph by going as deep as possible along each branch before backtracking. It uses a stack or recursion and runs in O(V + E) time.',
+    # --- AI / Neural Networks ---
+    'neural network': 'A neural network is a computing system loosely inspired by the human brain. It consists of layers of interconnected nodes (neurons) — an input layer, one or more hidden layers, and an output layer. Each connection has a weight that adjusts during training so the network learns to map inputs to correct outputs.',
+    'neural networks': 'Neural networks are computing systems loosely inspired by the human brain, made up of layers of interconnected nodes. They learn by adjusting connection weights during training and are the foundation of deep learning and modern AI applications like image recognition and language models.',
+    'artificial intelligence': 'Artificial Intelligence (AI) is the simulation of human intelligence in machines. It includes learning, reasoning, and problem-solving. Examples: ChatGPT, self-driving cars, Alexa.',
+    'natural language processing': 'Natural Language Processing (NLP) is a branch of AI that enables computers to understand, interpret, and generate human language. It powers chatbots, translation, sentiment analysis, and voice assistants.',
+    'nlp': 'Natural Language Processing (NLP) is a branch of AI that enables computers to understand, interpret, and generate human language. It powers chatbots, translation, and voice assistants.',
+    'reinforcement learning': 'Reinforcement learning is a type of machine learning where an agent learns to make decisions by taking actions in an environment and receiving rewards or penalties, aiming to maximize total reward over time.',
+    'transfer learning': 'Transfer learning reuses a pre-trained model on a new but related task, significantly reducing training time and data requirements. It is widely used in NLP (e.g. BERT, GPT) and computer vision.',
+    'overfitting': 'Overfitting occurs when a machine learning model learns the training data too well, including noise, and performs poorly on new, unseen data. Techniques to reduce it include dropout, regularization, and cross-validation.',
+    'supervised learning': 'Supervised learning trains a model on labeled input-output pairs so it can predict outputs for new inputs. Common algorithms: linear regression, decision trees, SVM, neural networks.',
+    'unsupervised learning': 'Unsupervised learning finds hidden patterns in data without labeled examples. Common techniques: clustering (k-means), dimensionality reduction (PCA), and autoencoders.',
+    # --- General Knowledge ---
+    'capital of india': 'The capital of India is New Delhi. It is located in the northern part of the country and serves as the seat of the Indian government.',
+    'capital of usa': 'The capital of the United States is Washington, D.C. It is the seat of the federal government and named after President George Washington.',
+    'capital of uk': 'The capital of the United Kingdom is London. It is the largest city in the UK and home to the British Parliament and Buckingham Palace.',
+    'capital of china': 'The capital of China is Beijing. It is the political, cultural, and educational centre of China.',
+    'capital of france': 'The capital of France is Paris. It is known as the City of Light and is home to the Eiffel Tower and the Louvre.',
+    'capital of japan': 'The capital of Japan is Tokyo. It is one of the most populous metropolitan areas in the world.',
+    'capital of australia': 'The capital of Australia is Canberra. It was purpose-built as the capital and is located in the Australian Capital Territory.',
+    'capital of canada': 'The capital of Canada is Ottawa, located in Ontario. It is home to the Parliament of Canada.',
+    'capital of germany': 'The capital of Germany is Berlin. It is the largest city in Germany and the seat of the federal government.',
+    'inventor of python': 'Python was created by Guido van Rossum and first released in 1991. He designed it to be easy to read and write, emphasizing code readability.',
+    'who invented python': 'Python was invented by Guido van Rossum and first released in 1991.',
+    'who invented java': 'Java was created by James Gosling at Sun Microsystems and first released in 1995.',
+    'who invented c': 'The C programming language was created by Dennis Ritchie at Bell Labs in the early 1970s.',
+    'software engineering': 'Software engineering is a branch of computer science and engineering focused on designing, developing, testing, and maintaining software systems in a structured and reliable way.',
+    'internet': 'The internet is a global network of interconnected computers that communicate using standardized protocols (TCP/IP). It enables services like the World Wide Web, email, and messaging.',
+    'world wide web': 'The World Wide Web (WWW) is a system of interlinked web pages and resources accessed via the internet using browsers. It was invented by Tim Berners-Lee in 1989.',
+    'artificial neural network': 'An artificial neural network (ANN) is a model inspired by the human brain, composed of layers of connected nodes. It learns patterns from data by adjusting weights through training, and is used in classification, regression, and generative tasks.',
 }
 
 LOCAL_CODE_SNIPPETS = {
@@ -858,6 +887,14 @@ class ChatBot:
             topic = re.sub(pattern, '', topic, flags=re.IGNORECASE).strip()
 
         topic = topic.rstrip('?.! ')
+        # Strip trailing qualifiers like "in simple words", "briefly", "with example"
+        # so "neural networks in simple words" → "neural networks" for correct KB lookup
+        topic = re.sub(
+            r'\s+(?:in simple words?|in brief|briefly|with examples?|with an example|'
+            r'for beginners?|easily|simply|in detail|in short|in layman terms?|'
+            r'in easy words?|step by step|clearly)$',
+            '', topic, flags=re.IGNORECASE
+        ).strip()
         topic = re.sub(r'\bin python\b', '', topic, flags=re.IGNORECASE).strip()
 
         alias_map = {
@@ -1012,10 +1049,13 @@ class ChatBot:
         try:
             # Clean the query for better Wikipedia search:
             # 1. Strip conversational starters so "what is software engineering" → "software engineering"
-            # 2. Remove code/programming noise words
-            clean_starters = r'^(?:what is|what are|what does|who is|define|explain|tell me about|how does|how do|give me|show me)\s+'
+            # 2. Strip trailing qualifiers like "in simple words", "with example", "briefly"
+            # 3. Remove code/programming noise words
+            clean_starters = r'^(?:what is|what are|what does|who is|who invented|who created|define|explain|tell me about|how does|how do|give me|show me)\s+'
+            trailing_qualifiers = r'\s+(?:in simple words?|in brief|briefly|with examples?|with an example|for beginners?|easily|simply|in detail|in short)$'
             noise_words = r'\b(code|program|write|example)\b'
             cleaned_input = re.sub(clean_starters, '', user_input, flags=re.IGNORECASE)
+            cleaned_input = re.sub(trailing_qualifiers, '', cleaned_input, flags=re.IGNORECASE)
             cleaned_input = re.sub(noise_words, '', cleaned_input, flags=re.IGNORECASE).strip()
             search_query = cleaned_input if len(cleaned_input) > 2 else user_input
             print(f"Fallback triggered. Searching Wikipedia for: '{search_query}' (original: '{user_input}')")
