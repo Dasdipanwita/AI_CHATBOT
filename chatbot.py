@@ -1165,11 +1165,24 @@ class ChatBot:
         
         # Only use intent-based response if similarity is above a strict threshold
         small_talk_tags = {
-            'greeting', 'goodbye', 'thanks', 'about', 'capabilities', 'project_details', 'joke'
+            'greeting', 'goodbye', 'thanks', 'about', 'capabilities', 'project_details', 'joke',
+            'bot_identity', 'bot_capabilities_food', 'philosophical', 'impossible_hypothetical',
+            'emotions_abstract', 'general_chitchat', 'compliment', 'insult',
+        }
+        # Conversational / philosophical intents get a lower threshold — they don't need
+        # high lexical overlap to be valid (e.g. "can you eat food?" is clearly a bot-capability question)
+        conversational_tags = {
+            'bot_identity', 'bot_capabilities_food', 'philosophical', 'impossible_hypothetical',
+            'emotions_abstract', 'general_chitchat', 'compliment', 'insult',
+            'greeting', 'goodbye', 'thanks', 'joke',
         }
         is_knowledge_query = self._is_knowledge_query(normalized_input)
         matched_pattern = self.patterns[best_match_idx]
         has_extra_topic_tokens = self._has_extra_topic_tokens(normalized_input, matched_pattern)
+
+        # Conversational/philosophical intents always respond directly — never send to generative fallback
+        if best_tag in conversational_tags and best_score > 0.40:
+            return np.random.choice(self.responses[best_match_idx])
 
         # For factual queries, require stronger confidence before returning canned intents.
         if is_knowledge_query and (best_tag in small_talk_tags or best_score < 0.78 or has_extra_topic_tokens):

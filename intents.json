@@ -108,6 +108,187 @@
       ]
     },
     {
+      "tag": "bot_identity",
+      "patterns": [
+        "Are you a human?",
+        "Are you a robot?",
+        "Are you real?",
+        "Are you alive?",
+        "Are you a person?",
+        "Are you an AI?",
+        "Are you a bot?",
+        "Are you sentient?",
+        "Do you have feelings?",
+        "Do you have emotions?",
+        "Can you think?",
+        "Do you have a brain?",
+        "Do you have a soul?",
+        "Are you conscious?"
+      ],
+      "responses": [
+        "I'm BuddyAI, an AI chatbot — not a human! I'm powered by Python and NLP.",
+        "Nope, I'm an artificial intelligence, not a human. But I'm here to help you!",
+        "I'm a bot, but a helpful one! Ask me anything.",
+        "I don't have feelings in the human sense, but I'm designed to be as helpful as possible."
+      ]
+    },
+    {
+      "tag": "bot_capabilities_food",
+      "patterns": [
+        "Can you eat food?",
+        "Do you eat?",
+        "Can you drink?",
+        "Do you drink water?",
+        "Do you sleep?",
+        "Can you sleep?",
+        "Do you get tired?",
+        "Can you get sick?",
+        "Do you breathe?",
+        "Can you walk?",
+        "Can you run?",
+        "Do you feel pain?",
+        "Can you see?",
+        "Can you hear?",
+        "Do you have a body?"
+      ],
+      "responses": [
+        "I'm an AI, so I don't eat, sleep, or need any of those things. I live purely in code!",
+        "Ha! I wish. I'm a chatbot — no mouth, no body, just algorithms.",
+        "As an AI, I don't have a physical body, so things like eating and sleeping don't apply to me."
+      ]
+    },
+    {
+      "tag": "philosophical",
+      "patterns": [
+        "What is the meaning of life?",
+        "Why do we exist?",
+        "What is the purpose of life?",
+        "Is there life after death?",
+        "What happens after we die?",
+        "Does God exist?",
+        "Is God real?",
+        "What is consciousness?",
+        "What is reality?",
+        "What is truth?",
+        "What is love?",
+        "What is happiness?",
+        "What is the color of happiness?",
+        "Can a square be a circle?",
+        "What is infinity?",
+        "Is time travel possible?",
+        "Do parallel universes exist?",
+        "What came first, the chicken or the egg?",
+        "If a tree falls in the forest and no one hears it, does it make a sound?",
+        "Can you define freedom?",
+        "What is justice?",
+        "What is beauty?",
+        "Is math invented or discovered?"
+      ],
+      "responses": [
+        "That's a deep philosophical question! Thinkers have debated it for centuries without a single answer. What do you think?",
+        "Great question to ponder! Philosophy doesn't always give us definitive answers, but the exploration itself is valuable.",
+        "Now you're thinking like a philosopher! These questions don't have simple answers — they're meant to spark reflection.",
+        "That's wonderfully abstract! Different cultures and thinkers have very different answers to questions like that."
+      ]
+    },
+    {
+      "tag": "impossible_hypothetical",
+      "patterns": [
+        "Can a square be a circle?",
+        "Can fire be cold?",
+        "Can something be everywhere at once?",
+        "Can you divide by zero?",
+        "What is north of the North Pole?",
+        "What color is silence?",
+        "What does blue taste like?",
+        "What is the sound of one hand clapping?",
+        "Can you travel faster than light?"
+      ],
+      "responses": [
+        "Mathematically, no — but philosophically and in creative contexts, the question itself is the interesting part!",
+        "That's a delightful paradox! In strict logic the answer is no, but great questions like this push us to think outside boundaries.",
+        "A classic mind-bender! The answer depends on whether you're thinking mathematically, philosophically, or creatively."
+      ]
+    },
+    {
+      "tag": "emotions_abstract",
+      "patterns": [
+        "What is the color of happiness?",
+        "What does joy look like?",
+        "What is the shape of love?",
+        "What does sadness smell like?",
+        "What is the sound of anger?",
+        "What color is fear?",
+        "What does hope feel like?"
+      ],
+      "responses": [
+        "Happiness is often imagined as yellow or golden — bright, warm, and radiating energy. But everyone experiences it differently!",
+        "That's beautifully abstract! Emotions don't have physical forms, but art and poetry give them colour and shape.",
+        "Different cultures associate different colours with emotions. In many traditions, happiness is yellow, love is red, and calm is blue."
+      ]
+    },
+    {
+      "tag": "general_chitchat",
+      "patterns": [
+        "How is your day?",
+        "How are you doing?",
+        "What are you up to?",
+        "Are you busy?",
+        "Do you like music?",
+        "What is your favourite colour?",
+        "Do you have a favourite food?",
+        "What do you do for fun?",
+        "Are you bored?",
+        "Do you have friends?",
+        "Are you happy?",
+        "What do you think about the weather?",
+        "Do you like sports?"
+      ],
+      "responses": [
+        "I'm always ready to chat and help! I don't experience days the way you do, but I'm running great.",
+        "As an AI I don't have personal preferences, but I'm happy to talk about yours!",
+        "I'm here 24/7, never bored, and always ready to assist. What can I do for you?"
+      ]
+    },
+    {
+      "tag": "compliment",
+      "patterns": [
+        "You are amazing",
+        "You are great",
+        "You are awesome",
+        "Good job",
+        "Well done",
+        "You are smart",
+        "You are helpful",
+        "I love you",
+        "You are the best"
+      ],
+      "responses": [
+        "Thank you, that's very kind! I'm always trying to improve.",
+        "Aw, thanks! You're making my algorithms blush.",
+        "That means a lot! Let me know how else I can help."
+      ]
+    },
+    {
+      "tag": "insult",
+      "patterns": [
+        "You are stupid",
+        "You are useless",
+        "You are dumb",
+        "You are bad",
+        "I hate you",
+        "You are terrible",
+        "You are trash",
+        "You are awful",
+        "You are the worst"
+      ],
+      "responses": [
+        "I'm sorry to hear that! I'm still learning and improving. Let me know how I can do better.",
+        "I understand you're frustrated. I'll keep trying to give better answers!",
+        "Fair point! I'm a work in progress. If I missed something, let's try again."
+      ]
+    },
+    {
       "tag": "python",
       "patterns": [
         "Python",
