@@ -238,9 +238,15 @@ class ChatBot:
         normalized = re.sub(r'^(what is)(?:\s+the\s+value\s+of)?\s+', 'what is ', normalized)
         match = re.search(r'(?:what is|calculate|solve|evaluate)\s+([-+*/%()\d\s.]+)$', normalized)
         if not match:
-            return None
+            # Also handle bare arithmetic expressions like "2-3", "5 * 3", "10 / 2"
+            bare = normalized.strip()
+            if re.fullmatch(r'[-+*/%()\d\s.]+', bare) and re.search(r'[+\-*/%(]', bare):
+                expression = bare
+            else:
+                return None
+        else:
+            expression = match.group(1).strip()
 
-        expression = match.group(1).strip()
         if not re.fullmatch(r'[-+*/%()\d\s.]+', expression):
             return None
 
