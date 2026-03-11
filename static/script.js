@@ -12,6 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
         attachButton.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', handleFileUpload);
     }
+
+    const chatForm = document.getElementById('chat-form');
+    if (chatForm) {
+        chatForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            sendMessage(event);
+        });
+    }
 });
 
 // Function to add a message to the chat
@@ -87,7 +95,7 @@ async function handleFileUpload(event) {
 
 // Handle sending message
 async function sendMessage(event) {
-    event.preventDefault(); // Prevent form submission
+    if (event) event.preventDefault(); // Prevent form submission
     
     const inputField = document.getElementById('user-input');
     const message = inputField.value.trim();
