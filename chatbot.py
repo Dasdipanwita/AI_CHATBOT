@@ -147,6 +147,13 @@ LOCAL_KNOWLEDGE_BASE = {
     'queue': 'A queue is a data structure that follows FIFO, first in first out, where the first element added is the first one removed.',
     'computer vision': 'Computer vision is a field of artificial intelligence that enables computers to interpret and analyze images and videos.',
     # --- CS fundamentals ---
+    'data': 'Data is raw, unprocessed facts and figures such as numbers, text, images, or measurements. When organized and processed, data becomes information that can be used for analysis and decision-making.',
+    'information': 'Information is processed, structured, or contextualized data that has meaning and is useful for decision-making. It answers questions like who, what, where, and when.',
+    'data science': 'Data science is an interdisciplinary field that uses statistics, programming, and domain knowledge to extract insights and knowledge from structured and unstructured data.',
+    'data mining': 'Data mining is the process of discovering patterns, correlations, and useful insights from large datasets using statistical, mathematical, and machine learning techniques.',
+    'data analysis': 'Data analysis is the process of inspecting, cleaning, transforming, and modeling data to discover useful information, draw conclusions, and support decision-making.',
+    'big data': 'Big data refers to extremely large datasets characterized by volume, velocity, and variety that cannot be processed by traditional tools. Technologies like Hadoop and Spark are used to handle it.',
+    'data warehouse': 'A data warehouse is a centralized repository that stores large amounts of historical data from multiple sources, optimized for reporting and analytical queries.',
     'palindrome': 'A palindrome is a word, phrase, number, or sequence that reads the same forwards and backwards. Examples include "racecar", "level", "madam", and 121.',
     'anagram': 'An anagram is a word or phrase formed by rearranging the letters of another word or phrase using all original letters exactly once. For example, "listen" is an anagram of "silent".',
     'time complexity': 'Time complexity describes how the running time of an algorithm grows as the input size increases. It is expressed using Big O notation such as O(1) constant, O(n) linear, O(n log n) linearithmic, and O(n²) quadratic.',
@@ -885,10 +892,23 @@ class ChatBot:
         if topic in LOCAL_KNOWLEDGE_BASE:
             return LOCAL_KNOWLEDGE_BASE[topic]
 
-        # Fuzzy substring match — catch plurals and partial matches
-        for key in LOCAL_KNOWLEDGE_BASE:
-            if key in topic or topic in key:
+        # Pass 1: a stored key phrase is a substring of the user topic — longest key wins.
+        # Skip keys where the topic merely *starts with* that key followed by more words,
+        # because pass 2 may find a longer, more specific key (e.g. "data structures and
+        # algorithms") that should beat the shorter "data" key for topic "data structures".
+        for key in sorted(LOCAL_KNOWLEDGE_BASE, key=len, reverse=True):
+            if key in topic and len(key) >= 4:
+                if topic.startswith(key) and topic != key:
+                    continue  # let pass 2 find a longer matching key
                 return LOCAL_KNOWLEDGE_BASE[key]
+
+        # Pass 2: user topic is a prefix/substring of a longer key — handles queries like
+        # "data structures" → "data structures and algorithms". Require len >= 6 to avoid
+        # common short words triggering false matches.
+        if len(topic) >= 6:
+            for key in sorted(LOCAL_KNOWLEDGE_BASE, key=len, reverse=True):
+                if topic in key:
+                    return LOCAL_KNOWLEDGE_BASE[key]
 
         return None
 
