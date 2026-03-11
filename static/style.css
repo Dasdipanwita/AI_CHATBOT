@@ -388,3 +388,94 @@ input[type="text"]::placeholder {
         padding-right: 16px;
     }
 }
+
+/* ── Mic Button ─────────────────────────────────────────────────────────── */
+.mic-btn {
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+.mic-btn:hover { color: var(--primary); }
+
+.mic-btn.recording {
+    color: #ef4444;
+    animation: mic-pulse 1s infinite ease-in-out;
+}
+
+@keyframes mic-pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.25); }
+}
+
+/* ── Voice-output toggle (header) ───────────────────────────────────────── */
+#voice-toggle { color: var(--text-muted); transition: color 0.2s; }
+#voice-toggle.active { color: var(--primary); }
+#voice-toggle:hover  { color: var(--primary); }
+
+/* ── Sidebar History ────────────────────────────────────────────────────── */
+.sidebar-history {
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border-color);
+    flex-shrink: 0;
+    overflow-y: auto;
+    max-height: 220px;
+}
+
+.sidebar-history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.clear-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    transition: color 0.2s, background 0.2s;
+}
+.clear-btn:hover { color: #ef4444; background: rgba(239,68,68,0.1); }
+
+.history-item {
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background 0.2s, color 0.2s;
+    margin-bottom: 2px;
+}
+.history-item:hover { background: var(--border-color); color: var(--text-main); }
+
+.no-history {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding: 8px 0;
+    text-align: center;
+}
+
+/* ── Markdown code blocks inside bot messages ───────────────────────────── */
+.bot-message pre {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    overflow-x: auto;
+    margin: 8px 0;
+    font-size: 0.88rem;
+}
+.bot-message code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.88rem;
+}

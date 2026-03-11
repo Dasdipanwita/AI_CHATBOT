@@ -17,6 +17,17 @@ try:
 except Exception:
     openai = None
 
+# Optional sentence-transformers (BERT) for semantic intent matching
+try:
+    from sentence_transformers import SentenceTransformer as _STModel
+    _SBERT = _STModel('all-MiniLM-L6-v2')
+    _SBERT_AVAILABLE = True
+    print('✅ Sentence-Transformers (BERT) loaded — semantic matching enabled.')
+except Exception:
+    _SBERT = None
+    _SBERT_AVAILABLE = False
+    print('ℹ️  sentence-transformers not installed — using TF-IDF only.')
+
 # Hugging Face placeholder - we will call the Inference API when `HF_TOKEN` is set
 HF_CHAT_API_URL = "https://router.huggingface.co/v1/chat/completions"
 DEFAULT_HF_MODEL = os.environ.get('HF_MODEL', 'meta-llama/Llama-3.1-8B-Instruct')
@@ -638,12 +649,19 @@ class ChatBot:
             result = int(result)
         return f"The answer is {result}."
 
-    def _build_model_messages(self, user_input, context_text=None, context_name=None):
-        """Build chat messages for generative backends, optionally grounding on uploaded file content."""
+    def _build_model_messages(self, user_input, context_text=None, context_name=None, chat_history=None):
+        """Build chat messages for generative backends, including conversation history."""
         system_content = (
             "You are a helpful assistant. Answer the exact user question clearly and concisely. "
             "If a term has multiple meanings, use the user's context."
         )
+
+        messages = [{"role": "system", "content": system_content}]
+
+        # Include the last 4 conversation turns (8 messages) for context memory
+        if chat_history:
+            for turn in chat_history[-8:]:
+                messages.append({"role": turn["role"], "content": turn["content"]})
 
         if context_text:
             excerpt = context_text[:12000]
@@ -657,10 +675,8 @@ class ChatBot:
         else:
             user_content = user_input
 
-        return [
-            {"role": "system", "content": system_content},
-            {"role": "user", "content": user_content},
-        ]
+        messages.append({"role": "user", "content": user_content})
+        return messages
 
     def _extract_candidate_name(self, context_text):
         """Best-effort name extraction from uploaded resume text."""
@@ -843,8 +859,12 @@ class ChatBot:
         return len(user_tokens - pattern_tokens) > 0
 
     def _train_model(self):
-        """Fits the TF-IDF vectorizer on the intent patterns."""
+        """Fits the TF-IDF vectorizer and precomputes BERT sentence embeddings (if available)."""
         self.tfidf_matrix = self.vectorizer.fit_transform(self.patterns)
+        if _SBERT_AVAILABLE:
+            self.pattern_embeddings = _SBERT.encode(self.patterns, show_progress_bar=False)
+        else:
+            self.pattern_embeddings = None
 
     def _normalize_user_input(self, text):
         """Normalize common abbreviations and typos before matching/fallback."""
@@ -997,7 +1017,7 @@ class ChatBot:
 
         return False
 
-    def get_generative_response(self, user_input, context_text=None, context_name=None):
+    def get_generative_response(self, user_input, context_text=None, context_name=None, chat_history=None):
         """Uses Wikipedia's free API (no auth needed) to answer general knowledge questions."""
         local_knowledge_response = self._get_local_knowledge_response(user_input)
         if local_knowledge_response:
@@ -1008,7 +1028,7 @@ class ChatBot:
             if local_response:
                 return local_response
 
-            messages = self._build_model_messages(user_input, context_text=context_text, context_name=context_name)
+            messages = self._build_model_messages(user_input, context_text=context_text, context_name=context_name, chat_history=chat_history)
 
             if openai and os.environ.get('OPENAI_API_KEY'):
                 try:
@@ -1102,7 +1122,7 @@ class ChatBot:
                 openai.api_key = os.environ.get('OPENAI_API_KEY')
                 resp = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
-                    messages=self._build_model_messages(user_input),
+                    messages=self._build_model_messages(user_input, chat_history=chat_history),
                     max_tokens=250,
                     temperature=0.2,
                 )
@@ -1119,7 +1139,7 @@ class ChatBot:
                 hf_headers = {"Authorization": f"Bearer {hf_token}", "Accept": "application/json"}
                 payload = {
                     "model": model,
-                    "messages": self._build_model_messages(user_input),
+                    "messages": self._build_model_messages(user_input, chat_history=chat_history),
                     "max_tokens": 220,
                     "temperature": 0.2
                 }
@@ -1139,29 +1159,53 @@ class ChatBot:
 
         return "I wasn't able to find specific information on that. Could you try rephrasing your question?"
 
-    def _get_single_response(self, user_input, context_text=None, context_name=None):
+    def _get_single_response(self, user_input, context_text=None, context_name=None, chat_history=None):
         """Return a response for a single prompt/question."""
+        # Detect follow-up phrases like "explain more", "tell me more", "give an example".
+        # kb_input  — used for local KB / TF-IDF (reuses prior topic so KB matching works)
+        # llm_input — sent to LLM generative path with full context for richer answers
+        kb_input  = user_input
+        llm_input = user_input
+        follow_up_words = {'it', 'this', 'that', 'they', 'more', 'elaborate', 'details', 'example'}
+        if chat_history and len(user_input.split()) <= 6 and set(user_input.lower().split()) & follow_up_words:
+            last_user_q = next((m['content'] for m in reversed(chat_history) if m['role'] == 'user'), None)
+            if last_user_q:
+                kb_input  = last_user_q                           # prior topic for local lookups
+                llm_input = f"{last_user_q} — {user_input}"      # full context for LLM
+
         math_response = self._get_math_response(user_input)
         if math_response:
             return math_response
 
-        code_response = self._get_code_response(user_input)
+        code_response = self._get_code_response(kb_input)
         if code_response:
             return code_response
 
-        local_kb_response = self._get_local_knowledge_response(user_input)
+        local_kb_response = self._get_local_knowledge_response(kb_input)
         if local_kb_response:
             return local_kb_response
 
-        if context_text and self._should_use_context_for_query(user_input):
-            return self.get_generative_response(user_input, context_text=context_text, context_name=context_name)
+        if context_text and self._should_use_context_for_query(kb_input):
+            return self.get_generative_response(llm_input, context_text=context_text, context_name=context_name, chat_history=chat_history)
 
-        normalized_input = self._normalize_user_input(user_input)
+        normalized_input = self._normalize_user_input(kb_input)
         user_tfidf = self.vectorizer.transform([normalized_input])
         cosine_similarities = cosine_similarity(user_tfidf, self.tfidf_matrix).flatten()
-        best_match_idx = np.argmax(cosine_similarities)
-        best_score = cosine_similarities[best_match_idx]
+        best_match_idx = int(np.argmax(cosine_similarities))
+        best_score = float(cosine_similarities[best_match_idx])
         best_tag = self.tags[best_match_idx]
+
+        # BERT semantic similarity override — helps with paraphrases TF-IDF misses
+        if _SBERT_AVAILABLE and self.pattern_embeddings is not None:
+            user_embed = _SBERT.encode([normalized_input])
+            sbert_sims = cosine_similarity(user_embed, self.pattern_embeddings).flatten()
+            sbert_best_idx = int(np.argmax(sbert_sims))
+            sbert_best_score = float(sbert_sims[sbert_best_idx])
+            if sbert_best_score > best_score + 0.08:
+                print(f'SBERT override: {self.tags[sbert_best_idx]} ({sbert_best_score:.4f}) > TF-IDF {best_tag} ({best_score:.4f})')
+                best_match_idx = sbert_best_idx
+                best_score = sbert_best_score
+                best_tag = self.tags[best_match_idx]
         
         # Log the similarity score for debugging
         print(f"Input: '{user_input}' | Normalized: '{normalized_input}' | Match: '{best_tag}' | Score: {best_score:.4f}")
@@ -1189,21 +1233,21 @@ class ChatBot:
 
         # For factual queries, require stronger confidence before returning canned intents.
         if is_knowledge_query and (best_tag in small_talk_tags or best_score < 0.78 or has_extra_topic_tokens):
-            return self.get_generative_response(normalized_input)
+            return self.get_generative_response(llm_input, chat_history=chat_history)
 
         if best_score > 0.62:
             return np.random.choice(self.responses[best_match_idx])
 
         # Default to generative fallback for low-confidence matches.
-        return self.get_generative_response(normalized_input)
+        return self.get_generative_response(llm_input, chat_history=chat_history)
 
-    def get_response(self, user_input, context_text=None, context_name=None):
+    def get_response(self, user_input, context_text=None, context_name=None, chat_history=None):
         """Given user input, find the best matching response."""
         quoted_prompts = self._extract_quoted_prompts(user_input)
         if quoted_prompts:
             answers = []
             for index, prompt in enumerate(quoted_prompts[:8], start=1):
-                answer = self._get_single_response(prompt, context_text=context_text, context_name=context_name)
+                answer = self._get_single_response(prompt, context_text=context_text, context_name=context_name, chat_history=chat_history)
                 answers.append(f"{index}. {answer}")
             return "\n\n".join(answers)
 
@@ -1211,11 +1255,11 @@ class ChatBot:
         if len(questions) > 1:
             answers = []
             for index, question in enumerate(questions[:6], start=1):
-                answer = self._get_single_response(question, context_text=context_text, context_name=context_name)
+                answer = self._get_single_response(question, context_text=context_text, context_name=context_name, chat_history=chat_history)
                 answers.append(f"{index}. {answer}")
             return "\n\n".join(answers)
 
-        return self._get_single_response(user_input, context_text=context_text, context_name=context_name)
+        return self._get_single_response(user_input, context_text=context_text, context_name=context_name, chat_history=chat_history)
 
 # Example usage (for testing)
 if __name__ == "__main__":

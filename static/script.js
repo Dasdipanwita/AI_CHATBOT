@@ -4,6 +4,112 @@ function getCurrentTime() {
     return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+// ─── Voice Input (Web Speech API) ───────────────────────────────────────────
+const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let isRecording = false;
+
+if (SpeechRecognitionAPI) {
+    recognition = new SpeechRecognitionAPI();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('user-input').value = transcript;
+        stopRecording();
+        sendMessage(null);
+    };
+    recognition.onerror = () => stopRecording();
+    recognition.onend   = () => stopRecording();
+}
+
+function startRecording() {
+    if (!recognition) { addMessage('Voice input is not supported in this browser.'); return; }
+    isRecording = true;
+    recognition.start();
+    const btn = document.getElementById('mic-btn');
+    if (btn) btn.classList.add('recording');
+}
+
+function stopRecording() {
+    isRecording = false;
+    const btn = document.getElementById('mic-btn');
+    if (btn) btn.classList.remove('recording');
+    try { recognition && recognition.stop(); } catch(_) {}
+}
+
+// ─── Voice Output (Web Speech Synthesis) ────────────────────────────────────
+let voiceEnabled = false;
+
+function toggleVoice() {
+    voiceEnabled = !voiceEnabled;
+    const btn = document.getElementById('voice-toggle');
+    if (btn) {
+        btn.classList.toggle('active', voiceEnabled);
+        btn.title = voiceEnabled ? 'Voice output ON' : 'Enable voice output';
+        btn.querySelector('i').className = voiceEnabled
+            ? 'fa-solid fa-volume-high'
+            : 'fa-solid fa-volume-xmark';
+    }
+}
+
+function speak(text) {
+    if (!voiceEnabled || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    // Strip markdown syntax so it sounds natural
+    const plain = text
+        .replace(/```[\s\S]*?```/g, 'code block')
+        .replace(/[#*`_>]/g, '')
+        .slice(0, 500);
+    const utt = new SpeechSynthesisUtterance(plain);
+    utt.lang = 'en-US';
+    utt.rate = 1.0;
+    window.speechSynthesis.speak(utt);
+}
+
+// ─── Chat History (SQLite via /history + /clear_chat) ───────────────────────
+async function loadHistory() {
+    try {
+        const res = await fetch('/history');
+        const data = await res.json();
+        const container = document.getElementById('history-list');
+        if (!container) return;
+        container.innerHTML = '';
+        if (!data.history || data.history.length === 0) {
+            container.innerHTML = '<p class="no-history">No history yet.</p>';
+            return;
+        }
+        data.history.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.textContent = item.user_message.length > 38
+                ? item.user_message.slice(0, 38) + '…'
+                : item.user_message;
+            div.title = item.user_message;
+            // Click to prefill the input box
+            div.addEventListener('click', () => {
+                document.getElementById('user-input').value = item.user_message;
+                document.getElementById('user-input').focus();
+            });
+            container.appendChild(div);
+        });
+    } catch (e) {
+        console.error('Failed to load history:', e);
+    }
+}
+
+async function clearChat() {
+    try { await fetch('/clear_chat', { method: 'POST' }); } catch(_) {}
+    const msgs = document.getElementById('chat-messages');
+    msgs.innerHTML = '';
+    addMessage('Hello! I am BuddyAI. How can I assist you today?');
+    const container = document.getElementById('history-list');
+    if (container) container.innerHTML = '<p class="no-history">Chat cleared.</p>';
+}
+
+// ─── DOMContentLoaded ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     const attachButton = document.getElementById('attach-btn');
     const fileInput = document.getElementById('file-input');
@@ -13,6 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
         fileInput.addEventListener('change', handleFileUpload);
     }
 
+    const micBtn = document.getElementById('mic-btn');
+    if (micBtn) {
+        micBtn.addEventListener('click', () => {
+            isRecording ? stopRecording() : startRecording();
+        });
+    }
+
     const chatForm = document.getElementById('chat-form');
     if (chatForm) {
         chatForm.addEventListener('submit', function(event) {
@@ -20,7 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
             sendMessage(event);
         });
     }
+
+    // Load history into sidebar on page load
+    loadHistory();
 });
+
 
 // Function to add a message to the chat
 function addMessage(text, isUser = false) {
@@ -129,6 +246,8 @@ async function sendMessage(event) {
         setTimeout(() => {
             toggleTypingIndicator(false);
             addMessage(data.response);
+            speak(data.response);      // read aloud if voice is enabled
+            loadHistory();             // refresh sidebar history
         }, 500 + Math.random() * 500); // Add a small synthetic delay for realism
         
     } catch (error) {

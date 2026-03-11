@@ -35,9 +35,20 @@
                 </a>
             </div>
 
+            <!-- Recent chat history -->
+            <div class="sidebar-history">
+                <div class="sidebar-history-header">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Chats</span>
+                    <button class="clear-btn" onclick="clearChat()" title="Clear chat history">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+                <div id="history-list"><p class="no-history">Loading…</p></div>
+            </div>
+
             <div class="sidebar-footer">
-                <p>Version 1.0.0</p>
-                <p>NLTK & Scikit-learn</p>
+                <p>Version 2.0.0</p>
+                <p>NLTK · TF-IDF · BERT · Wikipedia</p>
             </div>
         </aside>
 
@@ -55,6 +66,7 @@
                     </div>
                 </div>
                 <div class="header-actions">
+                    <button class="icon-btn" id="voice-toggle" onclick="toggleVoice()" title="Enable voice output"><i class="fa-solid fa-volume-xmark"></i></button>
                     <button class="icon-btn" title="Settings"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                 </div>
             </div>
@@ -80,7 +92,8 @@
                     <div class="input-wrapper">
                         <button type="button" class="icon-btn tooltip" id="attach-btn" title="Upload text or PDF file"><i class="fa-solid fa-paperclip"></i></button>
                         <input type="file" id="file-input" accept=".txt,.md,.json,.csv,.py,.js,.html,.css,.xml,.yml,.yaml,.pdf" hidden>
-                        <input type="text" id="user-input" placeholder="Type a message..." autocomplete="off" required>
+                        <input type="text" id="user-input" placeholder="Type a message…" autocomplete="off" required>
+                        <button type="button" class="icon-btn mic-btn" id="mic-btn" title="Voice input"><i class="fa-solid fa-microphone"></i></button>
                         <button type="submit" class="send-btn" id="send-btn">
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
