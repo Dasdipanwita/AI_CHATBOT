@@ -22,11 +22,11 @@ try:
     from sentence_transformers import SentenceTransformer as _STModel
     _SBERT = _STModel('all-MiniLM-L6-v2')
     _SBERT_AVAILABLE = True
-    print('✅ Sentence-Transformers (BERT) loaded — semantic matching enabled.')
+    print('[OK] Sentence-Transformers (BERT) loaded - semantic matching enabled.')
 except Exception:
     _SBERT = None
     _SBERT_AVAILABLE = False
-    print('ℹ️  sentence-transformers not installed — using TF-IDF only.')
+    print('[INFO] sentence-transformers not installed - using TF-IDF only.')
 
 # Hugging Face placeholder - we will call the Inference API when `HF_TOKEN` is set
 HF_CHAT_API_URL = "https://router.huggingface.co/v1/chat/completions"
@@ -291,8 +291,39 @@ LOCAL_KNOWLEDGE_BASE = {
     'reinforcement learning': 'Reinforcement learning is a type of machine learning where an agent learns to make decisions by taking actions in an environment and receiving rewards or penalties, aiming to maximize total reward over time.',
     'transfer learning': 'Transfer learning reuses a pre-trained model on a new but related task, significantly reducing training time and data requirements. It is widely used in NLP (e.g. BERT, GPT) and computer vision.',
     'overfitting': 'Overfitting occurs when a machine learning model learns the training data too well, including noise, and performs poorly on new, unseen data. Techniques to reduce it include dropout, regularization, and cross-validation.',
+    'underfitting': 'Underfitting occurs when a model is too simple to capture the underlying patterns in the data, resulting in poor performance on both training and test sets.',
     'supervised learning': 'Supervised learning trains a model on labeled input-output pairs so it can predict outputs for new inputs. Common algorithms: linear regression, decision trees, SVM, neural networks.',
     'unsupervised learning': 'Unsupervised learning finds hidden patterns in data without labeled examples. Common techniques: clustering (k-means), dimensionality reduction (PCA), and autoencoders.',
+    'logistic regression': 'Logistic regression is a supervised machine learning algorithm used for binary classification. Despite its name, it predicts the probability of a class label using the sigmoid function, outputting values between 0 and 1. It is widely used for spam detection, disease prediction, and sentiment analysis.',
+    'linear regression': 'Linear regression is a supervised learning algorithm that models the relationship between a dependent variable and one or more independent variables by fitting a straight line (y = mx + b). It is used for predicting continuous values like house prices or stock prices.',
+    'decision tree': 'A decision tree is a supervised learning algorithm that splits data into branches based on feature values to make predictions. It is easy to interpret and works for both classification and regression tasks.',
+    'random forest': 'Random forest is an ensemble learning method that builds multiple decision trees on random subsets of data and averages their predictions. It reduces overfitting compared to a single decision tree.',
+    'support vector machine': 'A Support Vector Machine (SVM) is a supervised learning algorithm that finds the optimal hyperplane to separate classes by maximizing the margin between support vectors. It is effective for high-dimensional data.',
+    'svm': 'A Support Vector Machine (SVM) is a supervised classification algorithm that finds the optimal hyperplane maximizing the margin between classes. Effective for high-dimensional and non-linear data using the kernel trick.',
+    'k-means': 'K-means is an unsupervised clustering algorithm that partitions data into k clusters by minimizing the distance between data points and their assigned cluster centroid.',
+    'gradient descent': 'Gradient descent is an optimization algorithm used to minimize a loss function by iteratively updating model parameters in the direction of the negative gradient. Variants include batch, stochastic, and mini-batch gradient descent.',
+    'backpropagation': 'Backpropagation is the algorithm used to train neural networks by computing gradients of the loss function with respect to each weight using the chain rule, then updating weights via gradient descent.',
+    'dropout': 'Dropout is a regularization technique for neural networks where random neurons are ignored during training with probability p, reducing overfitting by preventing co-adaptation of neurons.',
+    'regularization': 'Regularization prevents overfitting by adding a penalty term to the loss function. L1 (Lasso) adds absolute values of weights; L2 (Ridge) adds squared values of weights.',
+    'convolutional neural network': 'A Convolutional Neural Network (CNN) is a deep learning architecture designed for processing grid-like data such as images. It uses convolutional layers to detect features like edges, textures, and shapes automatically.',
+    'cnn': 'A CNN (Convolutional Neural Network) is a deep learning model specialized for image and video processing. It uses convolutional filters to automatically learn spatial features.',
+    'recurrent neural network': 'A Recurrent Neural Network (RNN) is a neural network designed for sequential data. It has feedback connections that allow information to persist across time steps, used for time series, NLP, and speech recognition.',
+    'rnn': 'An RNN (Recurrent Neural Network) processes sequences by maintaining a hidden state that captures information from previous time steps, suitable for text, speech, and time-series tasks.',
+    'lstm': 'LSTM (Long Short-Term Memory) is a type of RNN that uses gates (input, forget, output) to control information flow, solving the vanishing gradient problem and capturing long-term dependencies in sequences.',
+    'transformer': 'The Transformer is a deep learning architecture introduced in "Attention Is All You Need" (2017). It uses self-attention mechanisms instead of recurrence to process sequences in parallel, enabling models like BERT and GPT.',
+    'bert': 'BERT (Bidirectional Encoder Representations from Transformers) is a pre-trained NLP model by Google that reads text bidirectionally. It is fine-tuned for tasks like question answering, sentiment analysis, and text classification.',
+    'gpt': 'GPT (Generative Pre-trained Transformer) is a language model by OpenAI that generates human-like text by predicting the next token. GPT-4 powers ChatGPT and is widely used for text generation, summarization, and coding.',
+    'epoch': 'An epoch in machine learning is one complete pass through the entire training dataset. Models are typically trained for multiple epochs until the loss converges.',
+    'batch size': 'Batch size is the number of training samples processed before the model parameters are updated. Smaller batches add noise (can help generalization); larger batches are faster but may converge to sharp minima.',
+    'learning rate': 'The learning rate is a hyperparameter controlling how large the weight update steps are during gradient descent. Too high risks divergence; too low makes training very slow.',
+    'cross validation': 'Cross-validation is a technique to evaluate model performance by splitting data into k folds, training on k-1 folds and testing on the remaining fold, rotating k times. K-fold cross-validation gives a reliable performance estimate.',
+    'confusion matrix': 'A confusion matrix is a table summarizing classification results showing true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN). It is used to compute precision, recall, and F1-score.',
+    'precision recall': 'Precision measures the fraction of predicted positives that are correct (TP / (TP+FP)). Recall measures the fraction of actual positives correctly identified (TP / (TP+FN)). Both are used to evaluate classifiers on imbalanced datasets.',
+    'f1 score': 'The F1-score is the harmonic mean of precision and recall: 2 * (precision * recall) / (precision + recall). It balances both metrics and is useful when class distribution is unequal.',
+    'bias variance tradeoff': 'The bias-variance tradeoff describes the tension between model simplicity (high bias, underfitting) and complexity (high variance, overfitting). The goal is to find a model with low bias and low variance.',
+    'feature engineering': 'Feature engineering is the process of using domain knowledge to select, transform, or create input features that improve model performance. Good features can make simple models outperform complex ones.',
+    'principal component analysis': 'PCA (Principal Component Analysis) is a dimensionality reduction technique that projects data onto fewer axes (principal components) that capture the most variance, reducing noise and computation.',
+    'pca': 'PCA (Principal Component Analysis) reduces high-dimensional data to fewer dimensions by finding directions of maximum variance, useful for visualization and preprocessing.',
     # --- General Knowledge ---
     'capital of india': 'The capital of India is New Delhi. It is located in the northern part of the country and serves as the seat of the Indian government.',
     'capital of usa': 'The capital of the United States is Washington, D.C. It is the seat of the federal government and named after President George Washington.',
@@ -1236,8 +1267,12 @@ class ChatBot:
         matched_pattern = self.patterns[best_match_idx]
         has_extra_topic_tokens = self._has_extra_topic_tokens(normalized_input, matched_pattern)
 
-        # Conversational/philosophical intents always respond directly — never send to generative fallback
-        if best_tag in conversational_tags and best_score > 0.40:
+        # Conversational/philosophical intents respond directly when the TF-IDF score is
+        # high enough to be a confident match.  A high threshold (> 0.75) means a genuinely
+        # conversational question like "Are you a human?" (score ~1.0 on bot_identity) fires
+        # correctly, while a factual question like "What is logistic regression?" (which can
+        # only score very low against any conversational pattern) falls through to generative.
+        if best_tag in conversational_tags and best_score > 0.75:
             return np.random.choice(self.responses[best_match_idx])
 
         # For factual queries, require stronger confidence before returning canned intents.
