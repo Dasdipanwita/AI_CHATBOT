@@ -901,8 +901,17 @@ class ChatBot:
         """Return a deterministic answer for common technical concepts."""
         normalized = self._normalize_user_input(user_input).strip().lower()
 
+        # Strip every common conversational / question-starter prefix so the remaining
+        # string is the bare topic.  Order matters: longer patterns first.
         query_patterns = (
-            r'^(?:what is|what are|define|explain|tell me about)\s+',
+            # e.g. "can you please explain me what is data structure"
+            r'^(?:can you (?:please )?(?:explain|tell) (?:me )?(?:about |what is |what are )?)',
+            r'^(?:could you (?:please )?(?:explain|tell) (?:me )?(?:about |what is |what are )?)',
+            r'^(?:please (?:explain|define|tell me about|describe)\s+)',
+            r'^(?:i want to know (?:about |what is |what are )?)',
+            r'^(?:tell me (?:about |more about |what is |what are )?)',
+            r'^(?:explain (?:me )?(?:what is |what are |about )?)',
+            r'^(?:what is|what are|define|describe|tell me about)\s+',
             r'^(?:name one application of|applications of)\s+',
         )
         topic = normalized
