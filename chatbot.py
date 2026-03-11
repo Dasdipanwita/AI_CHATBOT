@@ -146,6 +146,346 @@ LOCAL_KNOWLEDGE_BASE = {
     'array': 'An array is a data structure that stores multiple elements in an ordered sequence, usually allowing fast access by index.',
     'queue': 'A queue is a data structure that follows FIFO, first in first out, where the first element added is the first one removed.',
     'computer vision': 'Computer vision is a field of artificial intelligence that enables computers to interpret and analyze images and videos.',
+    # --- CS fundamentals ---
+    'palindrome': 'A palindrome is a word, phrase, number, or sequence that reads the same forwards and backwards. Examples include "racecar", "level", "madam", and 121.',
+    'anagram': 'An anagram is a word or phrase formed by rearranging the letters of another word or phrase using all original letters exactly once. For example, "listen" is an anagram of "silent".',
+    'time complexity': 'Time complexity describes how the running time of an algorithm grows as the input size increases. It is expressed using Big O notation such as O(1) constant, O(n) linear, O(n log n) linearithmic, and O(n²) quadratic.',
+    'space complexity': 'Space complexity measures how much memory an algorithm uses relative to the input size, also expressed in Big O notation.',
+    'big o notation': 'Big O notation describes the upper bound of an algorithm\'s time or space complexity as input size grows. Common complexities: O(1) constant, O(log n) logarithmic, O(n) linear, O(n log n) linearithmic, O(n²) quadratic, O(2ⁿ) exponential.',
+    'complexity': 'Complexity in algorithms refers to how resource usage (time or space) scales with input size, expressed in Big O notation.',
+    'algorithm': 'An algorithm is a step-by-step procedure or formula for solving a problem. Good algorithms are correct, efficient, and terminating.',
+    'recursion': 'Recursion is a programming technique where a function calls itself with a smaller input until it reaches a base case. It is commonly used in problems like factorial, Fibonacci, and tree traversal.',
+    'dynamic programming': 'Dynamic programming solves complex problems by breaking them into overlapping subproblems and caching results to avoid redundant computation. Examples include Fibonacci, the knapsack problem, and shortest paths.',
+    'greedy algorithm': 'A greedy algorithm makes the locally optimal choice at each step hoping to find a global optimum. Examples include Huffman coding, Dijkstra\'s algorithm, and the activity selection problem.',
+    'memoization': 'Memoization is an optimization technique where results of expensive function calls are stored and reused when the same inputs appear again, speeding up recursive algorithms.',
+    # --- Sorting and Searching ---
+    'sorting': 'Sorting is the process of arranging elements in a particular order. Common algorithms: bubble sort O(n²), insertion sort O(n²), merge sort O(n log n), quick sort O(n log n) average.',
+    'searching': 'Searching is the process of finding a specific element in a data structure. Linear search is O(n); binary search on sorted arrays is O(log n).',
+    'binary search': 'Binary search finds a target in a sorted array by repeatedly halving the search space. It achieves O(log n) time complexity.',
+    'linear search': 'Linear search checks each element one by one until the target is found. It has O(n) time complexity and works on unsorted data.',
+    'bubble sort': 'Bubble sort repeatedly swaps adjacent elements that are in the wrong order. It has O(n²) average and worst-case time complexity.',
+    'merge sort': 'Merge sort is a divide-and-conquer algorithm that splits an array in half, recursively sorts each half, and merges them. It guarantees O(n log n) time complexity.',
+    'quick sort': 'Quick sort picks a pivot element and partitions the array around it. Its average time complexity is O(n log n), with O(n²) worst case.',
+    'insertion sort': 'Insertion sort builds the sorted array one element at a time by inserting each element in its correct position. O(n²) worst case but efficient for small or nearly sorted data.',
+    'selection sort': 'Selection sort repeatedly finds the minimum element from the unsorted portion and places it at the beginning. It has O(n²) time complexity.',
+    # --- Data Structures ---
+    'linked list': 'A linked list is a linear data structure where elements (nodes) contain data and a pointer to the next node. It allows efficient insertion and deletion but does not support random access.',
+    'doubly linked list': 'A doubly linked list is a linked list where each node has pointers to both the next and previous nodes, enabling traversal in both directions.',
+    'stack': 'A stack is a LIFO (last in, first out) data structure. Elements are pushed to and popped from the top. Used in function call management, undo operations, and expression evaluation.',
+    'binary tree': 'A binary tree is a tree data structure where each node has at most two children (left and right). It is the basis for binary search trees, heaps, and expression trees.',
+    'binary search tree': 'A BST (binary search tree) is a binary tree where each node\'s left subtree contains smaller values and the right subtree contains larger values, enabling O(log n) average search.',
+    'heap': 'A heap is a complete binary tree satisfying the heap property: in a max-heap each parent ≥ its children; in a min-heap each parent ≤ its children. Used in priority queues and heap sort.',
+    'hash table': 'A hash table maps keys to values using a hash function, giving O(1) average-case insert, delete, and lookup.',
+    'hash map': 'A hash map stores key-value pairs and provides O(1) average-case access using a hash function to compute the index.',
+    'graph': 'A graph is a data structure of nodes (vertices) connected by edges. Graphs can be directed or undirected and model networks, maps, and relationships.',
+    'trie': 'A trie (prefix tree) stores strings character by character in a tree structure. It is efficient for autocomplete, spell checking, and prefix searches.',
+    'priority queue': 'A priority queue is an abstract data type where each element has a priority. Elements are dequeued in priority order. Commonly implemented with a heap.',
+    # --- OOP ---
+    'object oriented programming': 'OOP organizes code around objects that bundle data (attributes) and behavior (methods). The four pillars are encapsulation, inheritance, polymorphism, and abstraction.',
+    'oop': 'OOP (Object-Oriented Programming) is a paradigm based on objects with attributes and methods. The four pillars are encapsulation, inheritance, polymorphism, and abstraction.',
+    'polymorphism': 'Polymorphism allows objects of different types to be treated through a common interface. It includes method overloading (compile-time) and method overriding (runtime).',
+    'inheritance': 'Inheritance allows a child class to acquire properties and methods from a parent class, enabling code reuse and an "is-a" relationship.',
+    'encapsulation': 'Encapsulation bundles data and methods in a class and restricts direct access using access modifiers (private, protected, public), protecting object state.',
+    'abstraction': 'Abstraction hides complex implementation details and exposes only the necessary interface. It simplifies interactions and reduces coupling.',
+    'class': 'A class is a blueprint for creating objects. It defines attributes (data) and methods (behavior) that its instances will have.',
+    'object': 'An object is an instance of a class. It holds specific attribute values and can invoke the methods defined in its class.',
+    # --- Python specifics ---
+    'decorator': 'A decorator in Python wraps a function to add extra behavior without modifying it directly. Decorators use the @symbol syntax and are widely used in Flask routing.',
+    'generator': 'A generator function yields values one at a time using the yield keyword, enabling lazy evaluation and memory-efficient iteration over large datasets.',
+    'iterator': 'An iterator implements __iter__ and __next__ methods, allowing items to be traversed one at a time with a for loop or next().',
+    'lambda': 'A lambda function is a small anonymous function defined with the lambda keyword. It can take multiple arguments but contains only a single expression.',
+    'closure': 'A closure is a function that retains access to variables from its enclosing scope even after that scope has finished executing.',
+    'list comprehension': 'List comprehension is a concise Python syntax to create lists: [expression for item in iterable if condition]. It is more readable and often faster than a for loop.',
+    'exception handling': 'Exception handling uses try-except blocks to catch and handle runtime errors gracefully, preventing program crashes.',
+    'scope': 'Scope defines where a variable is accessible. Python uses LEGB rule: Local, Enclosing, Global, and Built-in scopes.',
+    'mutable': 'Mutable objects can be changed after creation. In Python, lists, dicts, and sets are mutable.',
+    'immutable': 'Immutable objects cannot be changed after creation. In Python, strings, tuples, and integers are immutable.',
+    'string': 'A string is a sequence of characters representing text. In Python, strings are immutable and support slicing, concatenation, formatting, and many built-in methods.',
+    'list': 'A list in Python is an ordered, mutable collection that can hold items of different types, supporting indexing, slicing, and many built-in operations.',
+    'tuple': 'A tuple in Python is an ordered, immutable collection. Unlike lists, tuples cannot be modified after creation.',
+    'dictionary': 'A Python dictionary is an unordered collection of key-value pairs with O(1) average-case access, insertion, and deletion.',
+    'set': 'A Python set is an unordered collection of unique elements supporting union, intersection, and difference operations.',
+    'function': 'A function is a reusable block of code that performs a specific task, accepts optional parameters, and returns a result.',
+    'variable': 'A variable is a named storage location that holds a value which can change during program execution.',
+    'loop': 'A loop repeats a block of code multiple times. Python has for loops (iterating sequences) and while loops (repeating while a condition is true).',
+    'conditional': 'Conditional statements execute code based on whether a condition is true or false. Python uses if, elif, and else.',
+    # --- OS / Concurrency ---
+    'deadlock': 'A deadlock occurs when two or more processes are each waiting for the other to release a resource, causing all of them to be stuck indefinitely. Prevention strategies include resource ordering and timeouts.',
+    'race condition': 'A race condition occurs when multiple threads access shared data concurrently and the outcome depends on the timing of execution, leading to unpredictable results.',
+    'mutex': 'A mutex (mutual exclusion lock) allows only one thread at a time to enter a critical section, preventing concurrent access to shared resources.',
+    'semaphore': 'A semaphore is a synchronization primitive that controls access to shared resources using a counter that is atomically incremented (signal) or decremented (wait).',
+    'process': 'A process is an instance of a program in execution with its own memory space and resources. Multiple processes can run concurrently.',
+    'thread': 'A thread is the smallest unit of execution within a process. Threads share the same memory space and can run concurrently within a process.',
+    'concurrency': 'Concurrency is the ability to handle multiple tasks at overlapping time periods by interleaving their execution on one or more processors.',
+    'parallelism': 'Parallelism is the simultaneous execution of multiple tasks using multiple CPU cores. Unlike concurrency, tasks truly run at the same time.',
+    'virtual memory': 'Virtual memory gives each process the illusion of a large private address space by mapping memory to disk, extending physical RAM.',
+    'garbage collection': 'Garbage collection automatically reclaims memory that is no longer referenced by the program, preventing memory leaks.',
+    'pointer': 'A pointer stores the memory address of another variable. Pointers are central to C/C++ and enable dynamic memory allocation and data structures like linked lists.',
+    # --- Web / Networking ---
+    'api': 'An API (Application Programming Interface) defines rules and protocols for software components to communicate with each other.',
+    'rest api': 'A REST API uses HTTP methods (GET, POST, PUT, DELETE) to access and manipulate resources identified by URLs. Responses are typically JSON.',
+    'http': 'HTTP (HyperText Transfer Protocol) is the protocol for transferring data on the web. Key methods are GET (read), POST (create), PUT (update), and DELETE.',
+    'tcp ip': 'TCP/IP is the suite of internet communication protocols. TCP ensures reliable ordered delivery; IP handles addressing and routing.',
+    'dns': 'DNS (Domain Name System) translates human-readable domain names like google.com into IP addresses that computers use to connect.',
+    'cookie': 'A cookie is a small piece of data stored in the browser by a website to persist information like login state and preferences across sessions.',
+    'session': 'A session stores user state on the server across multiple HTTP requests, identified by a session ID typically held in a cookie.',
+    'jwt': 'JWT (JSON Web Token) is a compact token format for authentication, containing a header, payload, and signature encoded in Base64.',
+    'oauth': 'OAuth is an authorization framework that lets third-party services access user accounts without exposing passwords, using access tokens.',
+    'ssl tls': 'SSL/TLS are cryptographic protocols that encrypt data between client and server over the internet. TLS is the modern, secure successor to SSL.',
+    'hashing': 'Hashing converts data of any size into a fixed-size hash value using a hash function. Used in data structures, password storage, and cryptography.',
+    'encryption': 'Encryption converts plaintext into ciphertext using an algorithm and key so only authorized parties can decrypt and read it.',
+    # --- Database ---
+    'database': 'A database is an organized collection of data stored electronically. Relational databases use SQL; non-relational (NoSQL) databases use documents, key-value pairs, or graphs.',
+    'normalization': 'Database normalization organizes tables to reduce redundancy and improve data integrity by eliminating duplicate data and structuring relationships.',
+    'index': 'A database index is a data structure that speeds up data retrieval at the cost of extra storage. Without an index, a full table scan is needed.',
+    'transaction': 'A database transaction is a sequence of operations treated as a single unit — either all succeed (commit) or all are rolled back.',
+    'acid': 'ACID stands for Atomicity, Consistency, Isolation, and Durability — four properties guaranteeing reliable database transactions.',
+    'nosql': 'NoSQL databases store data in formats other than relational tables — documents, key-value, graph, or wide-column. Examples: MongoDB, Redis, Cassandra.',
+    'mongodb': 'MongoDB is a NoSQL document database that stores data as flexible JSON-like documents (BSON), known for scalability and schema flexibility.',
+    'cache': 'A cache stores frequently accessed data in high-speed storage so future requests are served faster. Examples: CPU cache, Redis, browser cache.',
+    # --- Tools and DevOps ---
+    'git': 'Git is a distributed version control system for tracking source code changes. Developers use branches, commits, and merges to collaborate safely.',
+    'docker': 'Docker packages applications and their dependencies into containers, ensuring consistent behavior across different environments.',
+    'microservices': 'Microservices is an architectural style where an application is split into small, independently deployable services that communicate via APIs.',
+    'cloud computing': 'Cloud computing delivers computing resources (servers, storage, databases) over the internet. Major providers include AWS, Azure, and Google Cloud.',
+    'agile': 'Agile is a software development methodology emphasizing iterative development, collaboration, and response to change, organized in short sprints.',
+    # --- Math / Logic ---
+    'fibonacci': 'The Fibonacci sequence is a series where each number is the sum of the two preceding ones: 0, 1, 1, 2, 3, 5, 8, 13, 21 … Commonly used to demonstrate recursion and dynamic programming.',
+    'factorial': 'The factorial of n (n!) is the product of all positive integers ≤ n. For example, 5! = 120. Computed recursively or iteratively; used in combinatorics.',
+    'prime number': 'A prime number is a natural number greater than 1 with no divisors other than 1 and itself. Examples: 2, 3, 5, 7, 11, 13.',
+    'number system': 'Number systems represent values in different bases: binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16).',
+    'bit manipulation': 'Bit manipulation operates on integers at the binary level using bitwise operators: AND (&), OR (|), XOR (^), NOT (~), left shift (<<), and right shift (>>).',
+    # --- Misc CS ---
+    'compiler': 'A compiler translates high-level source code into machine code or bytecode before execution. Examples: GCC for C, javac for Java.',
+    'interpreter': 'An interpreter executes source code line by line without pre-compiling to machine code. Python, Ruby, and JavaScript are interpreted.',
+    'version control': 'Version control tracks changes to files over time so earlier versions can be restored. Git is the most widely used version control system.',
+    'data type': 'A data type defines the kind of value a variable can hold (int, float, string, bool, list, etc.) and the operations permitted on it.',
+    'sorting algorithm': 'Sorting algorithms arrange elements in order. Key ones: bubble sort O(n²), merge sort O(n log n), quick sort O(n log n) average, insertion sort O(n²).',
+    'graph traversal': 'Graph traversal visits all nodes in a graph. BFS (breadth-first search) uses a queue and finds shortest paths; DFS (depth-first search) uses a stack or recursion.',
+    'bfs': 'BFS (Breadth-First Search) traverses a graph level by level using a queue. It finds the shortest path in unweighted graphs and runs in O(V + E) time.',
+    'dfs': 'DFS (Depth-First Search) traverses a graph by going as deep as possible along each branch before backtracking. It uses a stack or recursion and runs in O(V + E) time.',
+}
+
+LOCAL_CODE_SNIPPETS = {
+    'palindrome': (
+        "def is_palindrome(s):\n"
+        "    s = str(s)\n"
+        "    return s == s[::-1]\n\n"
+        "print(is_palindrome('racecar'))  # True\n"
+        "print(is_palindrome('hello'))    # False"
+    ),
+    'anagram': (
+        "def is_anagram(s1, s2):\n"
+        "    return sorted(s1.lower()) == sorted(s2.lower())\n\n"
+        "print(is_anagram('listen', 'silent'))  # True\n"
+        "print(is_anagram('hello', 'world'))    # False"
+    ),
+    'fibonacci': (
+        "def fibonacci(n):\n"
+        "    a, b = 0, 1\n"
+        "    for _ in range(n):\n"
+        "        print(a, end=' ')\n"
+        "        a, b = b, a + b\n\n"
+        "fibonacci(10)  # 0 1 1 2 3 5 8 13 21 34"
+    ),
+    'factorial': (
+        "def factorial(n):\n"
+        "    if n == 0 or n == 1:\n"
+        "        return 1\n"
+        "    return n * factorial(n - 1)\n\n"
+        "print(factorial(5))  # 120"
+    ),
+    'prime number': (
+        "def is_prime(n):\n"
+        "    if n < 2:\n"
+        "        return False\n"
+        "    for i in range(2, int(n ** 0.5) + 1):\n"
+        "        if n % i == 0:\n"
+        "            return False\n"
+        "    return True\n\n"
+        "primes = [n for n in range(2, 50) if is_prime(n)]\n"
+        "print(primes)"
+    ),
+    'bubble sort': (
+        "def bubble_sort(arr):\n"
+        "    n = len(arr)\n"
+        "    for i in range(n):\n"
+        "        for j in range(0, n - i - 1):\n"
+        "            if arr[j] > arr[j + 1]:\n"
+        "                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n"
+        "    return arr\n\n"
+        "print(bubble_sort([64, 34, 25, 12, 22, 11, 90]))"
+    ),
+    'merge sort': (
+        "def merge_sort(arr):\n"
+        "    if len(arr) <= 1:\n"
+        "        return arr\n"
+        "    mid = len(arr) // 2\n"
+        "    left = merge_sort(arr[:mid])\n"
+        "    right = merge_sort(arr[mid:])\n"
+        "    return merge(left, right)\n\n"
+        "def merge(left, right):\n"
+        "    result, i, j = [], 0, 0\n"
+        "    while i < len(left) and j < len(right):\n"
+        "        if left[i] <= right[j]:\n"
+        "            result.append(left[i]); i += 1\n"
+        "        else:\n"
+        "            result.append(right[j]); j += 1\n"
+        "    result.extend(left[i:])\n"
+        "    result.extend(right[j:])\n"
+        "    return result\n\n"
+        "print(merge_sort([38, 27, 43, 3, 9, 82, 10]))"
+    ),
+    'quick sort': (
+        "def quick_sort(arr):\n"
+        "    if len(arr) <= 1:\n"
+        "        return arr\n"
+        "    pivot = arr[len(arr) // 2]\n"
+        "    left   = [x for x in arr if x < pivot]\n"
+        "    middle = [x for x in arr if x == pivot]\n"
+        "    right  = [x for x in arr if x > pivot]\n"
+        "    return quick_sort(left) + middle + quick_sort(right)\n\n"
+        "print(quick_sort([3, 6, 8, 10, 1, 2, 1]))"
+    ),
+    'binary search': (
+        "def binary_search(arr, target):\n"
+        "    left, right = 0, len(arr) - 1\n"
+        "    while left <= right:\n"
+        "        mid = (left + right) // 2\n"
+        "        if arr[mid] == target:\n"
+        "            return mid\n"
+        "        elif arr[mid] < target:\n"
+        "            left = mid + 1\n"
+        "        else:\n"
+        "            right = mid - 1\n"
+        "    return -1\n\n"
+        "arr = [1, 3, 5, 7, 9, 11]\n"
+        "print(binary_search(arr, 7))  # 3"
+    ),
+    'linked list': (
+        "class Node:\n"
+        "    def __init__(self, data):\n"
+        "        self.data = data\n"
+        "        self.next = None\n\n"
+        "class LinkedList:\n"
+        "    def __init__(self):\n"
+        "        self.head = None\n\n"
+        "    def append(self, data):\n"
+        "        new_node = Node(data)\n"
+        "        if not self.head:\n"
+        "            self.head = new_node; return\n"
+        "        curr = self.head\n"
+        "        while curr.next:\n"
+        "            curr = curr.next\n"
+        "        curr.next = new_node\n\n"
+        "    def display(self):\n"
+        "        curr = self.head\n"
+        "        while curr:\n"
+        "            print(curr.data, end=' -> ')\n"
+        "            curr = curr.next\n"
+        "        print('None')\n\n"
+        "ll = LinkedList()\n"
+        "ll.append(1); ll.append(2); ll.append(3)\n"
+        "ll.display()  # 1 -> 2 -> 3 -> None"
+    ),
+    'stack': (
+        "class Stack:\n"
+        "    def __init__(self):\n"
+        "        self.items = []\n\n"
+        "    def push(self, item): self.items.append(item)\n"
+        "    def pop(self): return self.items.pop() if self.items else None\n"
+        "    def peek(self): return self.items[-1] if self.items else None\n"
+        "    def is_empty(self): return len(self.items) == 0\n\n"
+        "s = Stack()\n"
+        "s.push(1); s.push(2); s.push(3)\n"
+        "print(s.pop())   # 3\n"
+        "print(s.peek())  # 2"
+    ),
+    'queue': (
+        "from collections import deque\n\n"
+        "class Queue:\n"
+        "    def __init__(self):\n"
+        "        self.items = deque()\n\n"
+        "    def enqueue(self, item): self.items.append(item)\n"
+        "    def dequeue(self): return self.items.popleft() if self.items else None\n"
+        "    def is_empty(self): return len(self.items) == 0\n\n"
+        "q = Queue()\n"
+        "q.enqueue(1); q.enqueue(2)\n"
+        "print(q.dequeue())  # 1"
+    ),
+    'binary tree': (
+        "class TreeNode:\n"
+        "    def __init__(self, val):\n"
+        "        self.val = val\n"
+        "        self.left = self.right = None\n\n"
+        "def inorder(root):\n"
+        "    if root:\n"
+        "        inorder(root.left)\n"
+        "        print(root.val, end=' ')\n"
+        "        inorder(root.right)\n\n"
+        "root = TreeNode(4)\n"
+        "root.left = TreeNode(2); root.right = TreeNode(6)\n"
+        "root.left.left = TreeNode(1); root.left.right = TreeNode(3)\n"
+        "inorder(root)  # 1 2 3 4 6"
+    ),
+    'reverse string': (
+        "def reverse_string(s):\n"
+        "    return s[::-1]\n\n"
+        "print(reverse_string('hello'))  # olleh"
+    ),
+    'reverse linked list': (
+        "class Node:\n"
+        "    def __init__(self, data):\n"
+        "        self.data = data; self.next = None\n\n"
+        "def reverse(head):\n"
+        "    prev, curr = None, head\n"
+        "    while curr:\n"
+        "        nxt = curr.next\n"
+        "        curr.next = prev\n"
+        "        prev = curr\n"
+        "        curr = nxt\n"
+        "    return prev"
+    ),
+    'bfs': (
+        "from collections import deque\n\n"
+        "def bfs(graph, start):\n"
+        "    visited = set()\n"
+        "    queue = deque([start])\n"
+        "    visited.add(start)\n"
+        "    while queue:\n"
+        "        node = queue.popleft()\n"
+        "        print(node, end=' ')\n"
+        "        for neighbor in graph[node]:\n"
+        "            if neighbor not in visited:\n"
+        "                visited.add(neighbor)\n"
+        "                queue.append(neighbor)\n\n"
+        "graph = {0: [1, 2], 1: [3], 2: [4], 3: [], 4: []}\n"
+        "bfs(graph, 0)  # 0 1 2 3 4"
+    ),
+    'dfs': (
+        "def dfs(graph, node, visited=None):\n"
+        "    if visited is None:\n"
+        "        visited = set()\n"
+        "    visited.add(node)\n"
+        "    print(node, end=' ')\n"
+        "    for neighbor in graph[node]:\n"
+        "        if neighbor not in visited:\n"
+        "            dfs(graph, neighbor, visited)\n\n"
+        "graph = {0: [1, 2], 1: [3], 2: [4], 3: [], 4: []}\n"
+        "dfs(graph, 0)  # 0 1 3 2 4"
+    ),
+    'calculator': (
+        "def calculator(a, op, b):\n"
+        "    if op == '+': return a + b\n"
+        "    if op == '-': return a - b\n"
+        "    if op == '*': return a * b\n"
+        "    if op == '/':\n"
+        "        if b == 0: return 'Error: division by zero'\n"
+        "        return a / b\n"
+        "    return 'Unknown operator'\n\n"
+        "print(calculator(10, '+', 5))  # 15\n"
+        "print(calculator(10, '/', 2))  # 5.0"
+    ),
 }
 
 class ChatBot:
@@ -519,18 +859,59 @@ class ChatBot:
             'os': 'operating system',
             'ml': 'machine learning',
             'dl': 'deep learning',
+            'oops': 'object oriented programming',
+            'oop': 'object oriented programming',
+            'bst': 'binary search tree',
+            'big o': 'big o notation',
+            'big o notation': 'big o notation',
+            'time complexity': 'time complexity',
+            'space complexity': 'space complexity',
+            'deadlock': 'deadlock',
+            'race condition': 'race condition',
+            'linked list': 'linked list',
+            'doubly linked list': 'doubly linked list',
+            'hash map': 'hash map',
+            'hash table': 'hash table',
+            'rest': 'rest api',
+            'rest api': 'rest api',
+            'tcp': 'tcp ip',
+            'tcp/ip': 'tcp ip',
+            'ssl': 'ssl tls',
+            'tls': 'ssl tls',
+            'ssl/tls': 'ssl tls',
         }
         topic = alias_map.get(topic, topic)
 
         if topic in LOCAL_KNOWLEDGE_BASE:
             return LOCAL_KNOWLEDGE_BASE[topic]
 
-        if 'pandas' in topic:
-            return LOCAL_KNOWLEDGE_BASE['pandas']
-        if 'numpy' in topic:
-            return LOCAL_KNOWLEDGE_BASE['numpy']
-        if 'computer vision' in topic:
-            return LOCAL_KNOWLEDGE_BASE['computer vision']
+        # Fuzzy substring match — catch plurals and partial matches
+        for key in LOCAL_KNOWLEDGE_BASE:
+            if key in topic or topic in key:
+                return LOCAL_KNOWLEDGE_BASE[key]
+
+        return None
+
+    def _get_code_response(self, user_input):
+        """Return a code snippet if the user asks to write/show/implement something."""
+        normalized = user_input.strip().lower().rstrip('?.!')
+        code_triggers = (
+            'write a', 'write the', 'write code', 'write program', 'write a program',
+            'give code', 'give me code', 'show code', 'show me code',
+            'code for', 'code to', 'code of',
+            'program for', 'program to', 'program of',
+            'implement', 'implementation of', 'implementation for',
+            'example of', 'example for',
+            'how to check', 'how to find', 'how to detect',
+            'check code', 'check program',
+        )
+        is_code_request = any(trigger in normalized for trigger in code_triggers)
+        if not is_code_request:
+            return None
+
+        for key, snippet in LOCAL_CODE_SNIPPETS.items():
+            if key in normalized:
+                return f'Here is a Python implementation of {key}:\n\n```python\n{snippet}\n```'
 
         return None
 
@@ -697,6 +1078,14 @@ class ChatBot:
         math_response = self._get_math_response(user_input)
         if math_response:
             return math_response
+
+        code_response = self._get_code_response(user_input)
+        if code_response:
+            return code_response
+
+        local_kb_response = self._get_local_knowledge_response(user_input)
+        if local_kb_response:
+            return local_kb_response
 
         if context_text and self._should_use_context_for_query(user_input):
             return self.get_generative_response(user_input, context_text=context_text, context_name=context_name)
