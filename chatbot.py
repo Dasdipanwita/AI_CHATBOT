@@ -18,15 +18,23 @@ except Exception:
     openai = None
 
 # Optional sentence-transformers (BERT) for semantic intent matching
-try:
-    from sentence_transformers import SentenceTransformer as _STModel
-    _SBERT = _STModel('all-MiniLM-L6-v2')
-    _SBERT_AVAILABLE = True
-    print('[OK] Sentence-Transformers (BERT) loaded - semantic matching enabled.')
-except Exception:
-    _SBERT = None
-    _SBERT_AVAILABLE = False
-    print('[INFO] sentence-transformers not installed - using TF-IDF only.')
+# Lazy-loaded to save memory on startup
+_SBERT = None
+_SBERT_AVAILABLE = False
+
+def _get_sbert_model():
+    """Lazy-load BERT model on first use to save memory."""
+    global _SBERT, _SBERT_AVAILABLE
+    if _SBERT is None:
+        try:
+            from sentence_transformers import SentenceTransformer as _STModel
+            _SBERT = _STModel('all-MiniLM-L6-v2')
+            _SBERT_AVAILABLE = True
+            print('[OK] Sentence-Transformers (BERT) loaded - semantic matching enabled.')
+        except Exception as e:
+            _SBERT_AVAILABLE = False
+            print(f'[INFO] sentence-transformers not available - using TF-IDF only: {e}')
+    return _SBERT
 
 # Hugging Face placeholder - we will call the Inference API when `HF_TOKEN` is set
 HF_CHAT_API_URL = "https://router.huggingface.co/v1/chat/completions"
@@ -892,8 +900,9 @@ class ChatBot:
     def _train_model(self):
         """Fits the TF-IDF vectorizer and precomputes BERT sentence embeddings (if available)."""
         self.tfidf_matrix = self.vectorizer.fit_transform(self.patterns)
-        if _SBERT_AVAILABLE:
-            self.pattern_embeddings = _SBERT.encode(self.patterns, show_progress_bar=False)
+        sbert_model = _get_sbert_model()
+        if _SBERT_AVAILABLE and sbert_model is not None:
+            self.pattern_embeddings = sbert_model.encode(self.patterns, show_progress_bar=False)
         else:
             self.pattern_embeddings = None
 
@@ -1236,8 +1245,9 @@ class ChatBot:
         best_tag = self.tags[best_match_idx]
 
         # BERT semantic similarity override — helps with paraphrases TF-IDF misses
-        if _SBERT_AVAILABLE and self.pattern_embeddings is not None:
-            user_embed = _SBERT.encode([normalized_input])
+        sbert_model = _get_sbert_model()
+        if _SBERT_AVAILABLE and self.pattern_embeddings is not None and sbert_model is not None:
+            user_embed = sbert_model.encode([normalized_input])
             sbert_sims = cosine_similarity(user_embed, self.pattern_embeddings).flatten()
             sbert_best_idx = int(np.argmax(sbert_sims))
             sbert_best_score = float(sbert_sims[sbert_best_idx])
