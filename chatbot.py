@@ -994,7 +994,7 @@ class ChatBot:
                         "max_tokens": 320,
                         "temperature": 0.2
                     }
-                    hf_resp = requests.post(HF_CHAT_API_URL, headers=hf_headers, json=payload, timeout=30)
+                    hf_resp = requests.post(HF_CHAT_API_URL, headers=hf_headers, json=payload, timeout=60)
                     if hf_resp.status_code == 200:
                         data = hf_resp.json()
                         choices = data.get('choices', []) if isinstance(data, dict) else []
@@ -1010,10 +1010,13 @@ class ChatBot:
             return "I uploaded the file, but I could not generate an answer from it right now."
 
         try:
-            # Clean the query: remove code/programming noise words for better Wikipedia search
-            # Keep language keywords (e.g., "python") to preserve question context.
-            noise_words = r'\b(code|program|write|example|show me|give me)\b'
-            cleaned_input = re.sub(noise_words, '', user_input, flags=re.IGNORECASE).strip()
+            # Clean the query for better Wikipedia search:
+            # 1. Strip conversational starters so "what is software engineering" → "software engineering"
+            # 2. Remove code/programming noise words
+            clean_starters = r'^(?:what is|what are|what does|who is|define|explain|tell me about|how does|how do|give me|show me)\s+'
+            noise_words = r'\b(code|program|write|example)\b'
+            cleaned_input = re.sub(clean_starters, '', user_input, flags=re.IGNORECASE)
+            cleaned_input = re.sub(noise_words, '', cleaned_input, flags=re.IGNORECASE).strip()
             search_query = cleaned_input if len(cleaned_input) > 2 else user_input
             print(f"Fallback triggered. Searching Wikipedia for: '{search_query}' (original: '{user_input}')")
             
@@ -1077,7 +1080,7 @@ class ChatBot:
                     "max_tokens": 220,
                     "temperature": 0.2
                 }
-                hf_resp = requests.post(HF_CHAT_API_URL, headers=hf_headers, json=payload, timeout=30)
+                hf_resp = requests.post(HF_CHAT_API_URL, headers=hf_headers, json=payload, timeout=60)
                 if hf_resp.status_code == 200:
                     data = hf_resp.json()
                     choices = data.get('choices', []) if isinstance(data, dict) else []
